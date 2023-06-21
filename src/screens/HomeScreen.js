@@ -1,10 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import { Text } from 'react-native-paper'
 import React from 'react'
 
 const HomeScreen = ({ navigation, route }) => {
   return (
-    <View style={styles.basic}>
-      <Text>Home Screen</Text>
+    <View>
+      <Text variant='displayLarge'>This Week</Text>
+      <Text variant='displaySmall'>$XX.xx in</Text>
+      <Text variant='displaySmall'>$XX.xx out</Text>
+      <Text variant='displayLarge'>Transactions</Text>
     </View>
   );
 }
