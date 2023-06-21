@@ -2,6 +2,7 @@ import { StyleSheet, View, ScrollView } from 'react-native'
 import { TextInput, Button } from 'react-native-paper'
 import React from 'react'
 import { useState } from 'react';
+import { addNewTransaction } from '../components/transaction';
 
 const AddScreen = ({ navigation, route }) => {
 
@@ -53,6 +54,14 @@ const AddScreen = ({ navigation, route }) => {
         value={label}
         keyboardType="default"
       />
+      <Button mode="contained" onPress={() => addNewTransaction({
+        id : Math.random().toString(),
+        timestamp : new Date().getTime(),
+        amount : positive ? Number(amount) : Number(amount) * -1,
+        label : label,
+        })}>
+        Add
+      </Button>
     </ScrollView>
   )
 }

@@ -16,7 +16,7 @@ function App() {
       <NavigationContainer>
         <Tab.Navigator>
           <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="AddScreen" component={AddScreen} />
+          <Tab.Screen name="Add" component={AddScreen} />
         </Tab.Navigator>
       </NavigationContainer>
     </PaperProvider>
