@@ -1,6 +1,7 @@
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import React from 'react'
+import { getAllTransactions } from '../logic/transaction'
 
 const HomeScreen = ({ navigation, route }) => {
   return (
@@ -9,6 +10,11 @@ const HomeScreen = ({ navigation, route }) => {
       <Text variant='displaySmall'>$XX.xx in</Text>
       <Text variant='displaySmall'>$XX.xx out</Text>
       <Text variant='displayLarge'>Transactions</Text>
+      <ScrollView>
+        {/* This is where the transactions will go */}
+        transactions = getAllTransactions();
+        
+      </ScrollView>
     </View>
   );
 }

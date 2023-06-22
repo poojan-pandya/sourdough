@@ -2,7 +2,7 @@ import { StyleSheet, View, ScrollView } from 'react-native'
 import { TextInput, Button } from 'react-native-paper'
 import React from 'react'
 import { useState } from 'react';
-import { addNewTransaction } from '../components/transaction';
+import { addNewTransaction } from '../logic/transaction';
 
 const AddScreen = ({ navigation, route }) => {
 
@@ -23,6 +23,7 @@ const AddScreen = ({ navigation, route }) => {
         value={amount}
         keyboardType="numeric"
       />
+      {/* TODO: change to segmented button? */}
       {/* Buttons to choose positive or negative transaction. Only one can be pressed. */}
       <View style={styles.plusminus}>
         <Button mode="outlined" disabled={positive} theme={{colors : {
@@ -54,12 +55,18 @@ const AddScreen = ({ navigation, route }) => {
         value={label}
         keyboardType="default"
       />
-      <Button mode="contained" onPress={() => addNewTransaction({
+      <Button mode="contained" onPress={() => {
+        addNewTransaction({
         id : Math.random().toString(),
         timestamp : new Date().getTime(),
         amount : positive ? Number(amount) : Number(amount) * -1,
         label : label,
-        })}>
+        })
+        // Reset fields to defaults
+        setAmount("");
+        setLabel("");
+        setPositive(true);
+      }}>
         Add
       </Button>
     </ScrollView>
