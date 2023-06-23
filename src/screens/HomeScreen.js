@@ -11,7 +11,7 @@ const HomeScreen = ({ navigation, route }) => {
     }).catch((error) => {
       console.log(error);
     });
-  }, []);
+  });
   return (
     <View>
       <Text variant='displayLarge'>This Week</Text>
