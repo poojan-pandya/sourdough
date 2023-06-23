@@ -1,9 +1,17 @@
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { getAllTransactions } from '../logic/transaction'
 
 const HomeScreen = ({ navigation, route }) => {
+  const [transactions, setTransactions] = useState([]);
+  useEffect(() => {
+    getAllTransactions().then((value) => {
+      setTransactions(value);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }, []);
   return (
     <View>
       <Text variant='displayLarge'>This Week</Text>
@@ -11,9 +19,13 @@ const HomeScreen = ({ navigation, route }) => {
       <Text variant='displaySmall'>$XX.xx out</Text>
       <Text variant='displayLarge'>Transactions</Text>
       <ScrollView>
-        {/* This is where the transactions will go */}
-        transactions = getAllTransactions();
-        
+        {transactions.map((transaction) => {
+          return (
+            <View key={transaction.id}>
+              <Text>${transaction.amount} for {transaction.label}</Text>
+            </View>
+          )
+        })}
       </ScrollView>
     </View>
   );

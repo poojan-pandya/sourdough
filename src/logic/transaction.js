@@ -1,11 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export function addNewTransaction(transaction) {
+export async function addNewTransaction(transaction) {
     // Get the current list of transactions from AsyncStorage
     AsyncStorage.getItem('transactions').then((value) => {
         let transactions = JSON.parse(value);
         // If there are no transactions, create an empty array
-        if (transactions == null) {
+        if (transactions === null || transactions === undefined) {
             transactions = [];
         }
         // Add the new transaction to the array
@@ -18,16 +18,17 @@ export function addNewTransaction(transaction) {
     });
 }
 
-export function getAllTransactions() {
+export async function getAllTransactions() {
     // Get all transactions and return an array, and catch errors
-    AsyncStorage.getItem('transactions').then((value) => {
-        let transactions = JSON.parse(value);
-        if (transactions == null) {
+    try {
+        let transactions = await AsyncStorage.getItem('transactions');
+        if (transactions === null) {
             transactions = [];
+        } else {
+            transactions = JSON.parse(transactions);
         }
-        console.log(transactions);
         return transactions;
-    }).catch((error) => {
-        console.log(error);
-    });
+    } catch (error) {
+        console.log(`ERROR IN GETALLTRANSACTIONS: ${error}`);
+    }
 }
