@@ -29,6 +29,6 @@ export async function getAllTransactions() {
         }
         return transactions;
     } catch (error) {
-        console.log(`ERROR IN GETALLTRANSACTIONS: ${error}`);
+        console.log(`ERROR IN getAllTransactions(): ${error}`);
     }
 }

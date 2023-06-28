@@ -1,7 +1,8 @@
 import { ScrollView, StyleSheet, View } from 'react-native'
-import { Text } from 'react-native-paper'
+import { Heading, Text, VStack, Box } from 'native-base';
 import React, { useState, useEffect } from 'react'
 import { getAllTransactions } from '../logic/transaction'
+import TransactionRow from '../components/TransactionRow';
 
 const HomeScreen = ({ navigation, route }) => {
   const [transactions, setTransactions] = useState([]);
@@ -12,27 +13,24 @@ const HomeScreen = ({ navigation, route }) => {
       console.log(error);
     });
   });
+
   return (
-    <View>
-      <Text variant='displayLarge'>This Week</Text>
-      <Text variant='displaySmall'>$XX.xx in</Text>
-      <Text variant='displaySmall'>$XX.xx out</Text>
-      <Text variant='displayLarge'>Transactions</Text>
-      <ScrollView>
-        {transactions.map((transaction) => {
-          return (
-            <View key={transaction.id}>
-              <Text>${transaction.amount} for {transaction.label}</Text>
-            </View>
-          )
-        })}
-      </ScrollView>
-    </View>
+    <Box safeArea m="5">
+      <VStack>
+        <Heading size="2xl">This Week</Heading>
+        <Text fontSize="xl">In: $0</Text>
+        <Text fontSize="xl" pb="2">Out: $0</Text>
+        <Heading size="2xl">All Transactions</Heading>
+          {transactions.map((transaction) => {
+            return (
+              <View key={transaction.id}>
+                <TransactionRow label={transaction.label} amount={transaction.amount} date={transaction.timestamp} />
+              </View>
+            )
+          })}
+      </VStack>
+    </Box>
   );
 }
-
-const styles = StyleSheet.create({
-  basic : { flex: 1, alignItems: 'center', justifyContent: 'center' }
-})
 
 export default HomeScreen
