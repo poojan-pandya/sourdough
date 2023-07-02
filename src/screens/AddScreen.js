@@ -1,7 +1,8 @@
 import { StyleSheet, View, ScrollView } from 'react-native'
-import { TextInput, Button } from 'react-native-paper'
+// import { TextInput, Button } from 'react-native-paper'
+import { Input, Button, Box } from 'native-base'
 import React from 'react'
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { addNewTransaction } from '../logic/transaction';
 
 const AddScreen = ({ navigation, route }) => {
@@ -9,53 +10,45 @@ const AddScreen = ({ navigation, route }) => {
   const [amount, setAmount] = useState("");
   const [label, setLabel] = useState("");
   const [positive, setPositive] = useState(true);
+  const refLabel = useRef();
 
   return (
+    <Box safeArea m="5" keyboardShouldPersistTaps='handled'>
     <ScrollView contentContainerStyle={styles.scroll}
     // This prop is needed to make the keyboard disappear when tapping outside of a text field.
-    keyboardShouldPersistTaps='handled'
+    // keyboardShouldPersistTaps='handled'
     >
       {/* Text field to add an amount */}
-      <TextInput
-        label="Amount"
-        mode="outlined"
-        onChangeText={setAmount}
-        value={amount}
-        keyboardType="numeric"
+      <Input
+      variant={"unstyled"}
+      placeholder="Amount"
+      keyboardType="numeric"
+      value={amount}
+      onChangeText={setAmount}
+      size={"xl"}
+      returnKeyType={ "done" }
+      onSubmitEditing={() => refLabel.current.focus()}
+
       />
-      {/* TODO: change to segmented button? */}
-      {/* Buttons to choose positive or negative transaction. Only one can be pressed. */}
-      <View style={styles.plusminus}>
-        <Button mode="outlined" disabled={positive} theme={{colors : {
-          // This is the color when the button is pressed (disabled).
-          surfaceDisabled : "#32a852",
-          onSurfaceDisabled : "#32a852",
-          // This is the color when the button is not pressed (enabled).
-          outline : "#a1a1a1",
-          primary : "#a1a1a1",        
-          }}} onPress={() => setPositive(true)}>
-          +
-        </Button>
-        <Button mode="outlined" disabled={!positive} theme={{colors : {
-          // This is the color when the button is pressed (disabled).
-          surfaceDisabled : "#c70404",
-          onSurfaceDisabled : "#c70404",
-          // This is the color when the button is not pressed (enabled).
-          outline : "#a1a1a1",
-          primary : "#a1a1a1",        
-          }}} onPress={() => setPositive(false)}>
-          -
-        </Button>
-      </View>
+
+      {/* A button to toggle between positive and negative */}
+      <Button.Group m="2" isAttached size="lg">
+        <Button onPress={() => setPositive(true)} variant={positive ? "solid" : "outline"}>+</Button>
+        <Button onPress={() => setPositive(false)} variant={positive ? "outline" : "solid"}>-</Button>
+      </Button.Group>
+      
       {/* Text field to add a label */}
-      <TextInput
-        label="Label"
-        mode="outlined"
-        onChangeText={setLabel}
-        value={label}
-        keyboardType="default"
+      <Input
+      variant={"unstyled"}
+      placeholder="Label"
+      value={label}
+      onChangeText={setLabel}
+      ref={refLabel}
+      size={"xl"}
       />
-      <Button mode="contained" onPress={() => {
+
+      {/* A button to submit */}
+        <Button m="2" backgroundColor="#000000" onPress={() => {
         addNewTransaction({
         id : Math.random().toString(),
         timestamp : new Date().getTime(),
@@ -66,10 +59,11 @@ const AddScreen = ({ navigation, route }) => {
         setAmount("");
         setLabel("");
         setPositive(true);
-      }}>
+      }} variant="solid">
         Add
-      </Button>
+        </Button>
     </ScrollView>
+    </Box>
   )
 }
 
