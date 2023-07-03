@@ -6,11 +6,41 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import { Provider as PaperProvider } from 'react-native-paper';
 import HomeScreen from './src/screens/HomeScreen';
 import AddScreen from './src/screens/AddScreen';
-import { NativeBaseProvider, Box } from "native-base";
+import { NativeBaseProvider, extendTheme } from "native-base";
 
 const Tab = createBottomTabNavigator();
 
 function App() {
+  const theme = extendTheme({
+    colors: {
+      // Add new color
+      primary: {
+        50: '#E3F2F9',
+        100: '#C5E4F3',
+        200: '#A2D4EC',
+        300: '#7AC1E4',
+        400: '#47A9DA',
+        500: '#0088CC',
+        600: '#007AB8',
+        700: '#006BA1',
+        800: '#005885',
+        900: '#003F5E',
+      },
+      // Redefining only one shade, rest of the color will remain same.
+      green: {
+        100: "#32a852",
+      },
+      red: {
+        100: "#c70404",
+      }
+    },
+    config: {
+      // Changing initialColorMode to 'dark'
+      initialColorMode: 'dark',
+    },
+  });
+
+
   return (
     <NativeBaseProvider>
       <NavigationContainer>

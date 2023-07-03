@@ -16,12 +16,13 @@ const HomeScreen = ({ navigation, route }) => {
 
   return (
     <Box safeArea m="5">
+      <ScrollView>
       <VStack>
         <Heading size="2xl">This Week</Heading>
         <Text fontSize="xl">In: $0</Text>
         <Text fontSize="xl" pb="2">Out: $0</Text>
         <Heading size="2xl">All Transactions</Heading>
-          {transactions.map((transaction) => {
+          {transactions.reverse().map((transaction) => {
             return (
               <View key={transaction.id}>
                 <TransactionRow label={transaction.label} amount={transaction.amount} date={transaction.timestamp} />
@@ -29,6 +30,7 @@ const HomeScreen = ({ navigation, route }) => {
             )
           })}
       </VStack>
+      </ScrollView>
     </Box>
   );
 }

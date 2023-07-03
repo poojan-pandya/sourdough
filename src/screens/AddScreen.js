@@ -1,23 +1,30 @@
-import { StyleSheet, View, ScrollView } from 'react-native'
-// import { TextInput, Button } from 'react-native-paper'
-import { Input, Button, Box } from 'native-base'
+import { ScrollView } from 'react-native'
+import { Input, Button, Box, Heading } from 'native-base'
 import React from 'react'
 import { useState, useRef } from 'react';
 import { addNewTransaction } from '../logic/transaction';
 
-const AddScreen = ({ navigation, route }) => {
-
+const AddScreen = () => {
   const [amount, setAmount] = useState("");
   const [label, setLabel] = useState("");
   const [positive, setPositive] = useState(true);
+  const refAmount = useRef();
   const refLabel = useRef();
 
   return (
-    <Box safeArea m="5" keyboardShouldPersistTaps='handled'>
-    <ScrollView contentContainerStyle={styles.scroll}
+    <Box safeArea m="5">
+      <Heading pb={"5"} size="2xl">Add Transaction</Heading>
+    <ScrollView
     // This prop is needed to make the keyboard disappear when tapping outside of a text field.
-    // keyboardShouldPersistTaps='handled'
+    keyboardShouldPersistTaps='handled'
     >
+
+      {/* A button to toggle between positive and negative */}
+      <Button.Group m="2" py="5" size="lg" justifyContent={"center"}>
+        <Button width="50%" onPress={() => setPositive(true)} colorScheme="green"  variant={positive ? "solid" : "disabled"}>+</Button>
+        <Button width="50%" onPress={() => setPositive(false)} colorScheme="red" variant={positive ? "disabled" : "solid"}>-</Button>
+      </Button.Group>
+
       {/* Text field to add an amount */}
       <Input
       variant={"unstyled"}
@@ -28,14 +35,8 @@ const AddScreen = ({ navigation, route }) => {
       size={"xl"}
       returnKeyType={ "done" }
       onSubmitEditing={() => refLabel.current.focus()}
-
+      ref={refAmount}
       />
-
-      {/* A button to toggle between positive and negative */}
-      <Button.Group m="2" isAttached size="lg">
-        <Button onPress={() => setPositive(true)} variant={positive ? "solid" : "outline"}>+</Button>
-        <Button onPress={() => setPositive(false)} variant={positive ? "outline" : "solid"}>-</Button>
-      </Button.Group>
       
       {/* Text field to add a label */}
       <Input
@@ -48,28 +49,27 @@ const AddScreen = ({ navigation, route }) => {
       />
 
       {/* A button to submit */}
-        <Button m="2" backgroundColor="#000000" onPress={() => {
-        addNewTransaction({
-        id : Math.random().toString(),
-        timestamp : new Date().getTime(),
-        amount : positive ? Number(amount) : Number(amount) * -1,
-        label : label,
-        })
-        // Reset fields to defaults
-        setAmount("");
-        setLabel("");
-        setPositive(true);
-      }} variant="solid">
+        <Button backgroundColor="#000000" onPress={() => {
+          if (!amount || !label) {
+            return;
+          }
+          addNewTransaction({
+          id : Math.random().toString(),
+          timestamp : new Date().getTime(),
+          amount : positive ? Number(amount) : Number(amount) * -1,
+          label : label,
+          })
+          // Reset fields to defaults
+          setAmount("");
+          setLabel("");
+          setPositive(true);
+          refAmount.current.focus();
+        }} variant="solid">
         Add
         </Button>
     </ScrollView>
     </Box>
   )
 }
-
-const styles = StyleSheet.create({
-  scroll : {flexGrow: 1},
-  plusminus : { flex: 0, flexDirection: 'row',alignItems: 'center', justifyContent: 'center' },
-})
 
 export default AddScreen
