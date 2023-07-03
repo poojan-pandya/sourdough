@@ -1,10 +1,10 @@
 import { ScrollView } from 'react-native'
-import { Input, Button, Box, Heading } from 'native-base'
+import { Input, Button, Box, Heading, CloseIcon, Flex, Spacer, HStack } from 'native-base'
 import React from 'react'
 import { useState, useRef } from 'react';
 import { addNewTransaction } from '../logic/transaction';
 
-const AddScreen = () => {
+const AddScreen = ( navigation ) => {
   const [amount, setAmount] = useState("");
   const [label, setLabel] = useState("");
   const [positive, setPositive] = useState(true);
@@ -13,16 +13,23 @@ const AddScreen = () => {
 
   return (
     <Box safeArea m="5">
+      <Flex>
+        <HStack>
+          <Spacer></Spacer>
+        <CloseIcon size="7" m="3" color="black" onPress={() => navigation.navigate("Home", {})}/>
+        </HStack>
+        
+      </Flex>
       <Heading pb={"5"} size="2xl">Add Transaction</Heading>
     <ScrollView
     // This prop is needed to make the keyboard disappear when tapping outside of a text field.
-    keyboardShouldPersistTaps='handled'
+    // keyboardShouldPersistTaps='handled'
     >
 
       {/* A button to toggle between positive and negative */}
       <Button.Group m="2" py="5" size="lg" justifyContent={"center"}>
-        <Button width="50%" onPress={() => setPositive(true)} colorScheme="green"  variant={positive ? "solid" : "disabled"}>+</Button>
-        <Button width="50%" onPress={() => setPositive(false)} colorScheme="red" variant={positive ? "disabled" : "solid"}>-</Button>
+        <Button width="50%" onPress={() => setPositive(true)} colorScheme="green"  variant={positive ? "solid" : "outline"}>+</Button>
+        <Button width="50%" onPress={() => setPositive(false)} colorScheme="red" variant={positive ? "outline" : "solid"}>-</Button>
       </Button.Group>
 
       {/* Text field to add an amount */}
