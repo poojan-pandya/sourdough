@@ -1,22 +1,35 @@
 import { ScrollView } from 'react-native'
-import { Input, Button, Box, Heading, CloseIcon, Flex, Spacer, HStack } from 'native-base'
+import { Input, Button, Box, Heading, CloseIcon, Flex, Spacer, HStack, Pressable } from 'native-base'
 import React from 'react'
 import { useState, useRef } from 'react';
 import { addNewTransaction } from '../logic/transaction';
+import { useFocusEffect } from '@react-navigation/native';
 
-const AddScreen = ( navigation ) => {
+const AddScreen = ( {navigation, route} ) => {
   const [amount, setAmount] = useState("");
   const [label, setLabel] = useState("");
   const [positive, setPositive] = useState(true);
   const refAmount = useRef();
   const refLabel = useRef();
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const unsubscribe = navigation.addListener('focus', () => {
+        refAmount.current.focus();
+      });
+
+      return unsubscribe;
+    }, [])
+  );
+
   return (
     <Box safeArea m="5">
       <Flex>
         <HStack>
           <Spacer></Spacer>
-        <CloseIcon size="7" m="3" color="black" onPress={() => navigation.navigate("Home", {})}/>
+          <Pressable onPress={() => navigation.navigate("Home", {})}>
+        <CloseIcon size="7" m="3" color="black"/>
+        </Pressable>
         </HStack>
         
       </Flex>
