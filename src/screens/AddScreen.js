@@ -1,95 +1,102 @@
-import { ScrollView } from 'react-native'
-import { Input, Button, Box, Heading, CloseIcon, Flex, Spacer, HStack, Pressable } from 'native-base'
+import { StyleSheet, Text, SafeAreaView, View, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import RoundedButton from '../components/RoundedButton'
 import React from 'react'
-import { useState, useRef } from 'react';
-import { addNewTransaction } from '../logic/transaction';
-import { useFocusEffect } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native'
+import { baseStyles, colors } from '../styles/baseStyles'
+import { Picker } from '@react-native-picker/picker'
+import { addNewTransaction } from '../logic/transaction'
 
-const AddScreen = ( {navigation, route} ) => {
-  const [amount, setAmount] = useState("");
-  const [label, setLabel] = useState("");
-  const [positive, setPositive] = useState(true);
-  const refAmount = useRef();
-  const refLabel = useRef();
 
-  useFocusEffect(
-    React.useCallback(() => {
-      const unsubscribe = navigation.addListener('focus', () => {
-        refAmount.current.focus();
-      });
 
-      return unsubscribe;
-    }, [])
-  );
+const AddScreen = () => {
 
-  return (
-    <Box safeArea m="5">
-      <Flex>
-        <HStack>
-          <Spacer></Spacer>
-          <Pressable onPress={() => navigation.navigate("Home", {})}>
-        <CloseIcon size="7" m="3" color="black"/>
-        </Pressable>
-        </HStack>
+  const [selectedCategory, setSelectedCategory] = React.useState("Income");
+  const [amount, setAmount] = React.useState("");
+  const [label, setLabel] = React.useState("");
+  const amountRef = React.useRef(null);
+  const amountFocused = useIsFocused();
+
+    React.useEffect(() => {
+        if (amountFocused) {
+            amountRef.current.focus()
+        }
+
+        return () => {
+            // Cleanup function to unfocus the TextInput when navigating away
+            cleanup()
+            amountRef.current.blur()
+        }
         
-      </Flex>
-      <Heading pb={"5"} size="2xl">Add Transaction</Heading>
-    <ScrollView
-    // This prop is needed to make the keyboard disappear when tapping outside of a text field.
-    // keyboardShouldPersistTaps='handled'
-    >
+    }, [amountFocused])
 
-      {/* A button to toggle between positive and negative */}
-      <Button.Group m="2" py="5" size="lg" justifyContent={"center"}>
-        <Button width="50%" onPress={() => setPositive(true)} colorScheme="green"  variant={positive ? "solid" : "outline"}>+</Button>
-        <Button width="50%" onPress={() => setPositive(false)} colorScheme="red" variant={positive ? "outline" : "solid"}>-</Button>
-      </Button.Group>
+    const handleInputChange = (text) => {
+        const filteredText = text.replace(/[^0-9.]/g, '')
+        const isValid = /^\d+(\.\d{0,2})?$/.test(filteredText) || filteredText === '';
+        if (isValid) {
+            setAmount(filteredText)
+        }
+    }
 
-      {/* Text field to add an amount */}
-      <Input
-      variant={"unstyled"}
-      placeholder="Amount"
-      keyboardType="numeric"
-      value={amount}
-      onChangeText={setAmount}
-      size={"xl"}
-      returnKeyType={ "done" }
-      onSubmitEditing={() => refLabel.current.focus()}
-      ref={refAmount}
-      />
-      
-      {/* Text field to add a label */}
-      <Input
-      variant={"unstyled"}
-      placeholder="Label"
-      value={label}
-      onChangeText={setLabel}
-      ref={refLabel}
-      size={"xl"}
-      />
+    const cleanup = () => {
+        setAmount("")
+        setLabel("")
+        setSelectedCategory("Income")
+        amountRef.current.focus()
+    }
+    
+  return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <SafeAreaView style={styles.container}>
+        
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={styles.h1}>Add </Text>
+            <Text style={{...baseStyles.h1, color: colors.blue}}>$</Text>
+        <TextInput
+            ref={amountRef}
+            style={{...baseStyles.h1, color: colors.blue}}
+            keyboardType='numeric'
+            onChangeText={handleInputChange}
+            value={amount}
+            placeholder='0.00'
+        />
+        </View>
 
-      {/* A button to submit */}
-        <Button backgroundColor="#000000" onPress={() => {
-          if (!amount || !label) {
-            return;
-          }
-          addNewTransaction({
-          id : Math.random().toString(),
-          timestamp : new Date().getTime(),
-          amount : positive ? Number(amount) : Number(amount) * -1,
-          label : label,
-          })
-          // Reset fields to defaults
-          setAmount("");
-          setLabel("");
-          setPositive(true);
-          refAmount.current.focus();
-        }} variant="solid">
-        Add
-        </Button>
-    </ScrollView>
-    </Box>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={styles.h1}>For </Text>
+        <TextInput
+            style={{...baseStyles.h1, color: colors.blue}}
+            onChangeText={text => setLabel(text)}
+            value={label}
+            placeholder='bread'
+        />
+        </View>
+        
+        <Picker
+            itemStyle={baseStyles.bold_p}
+            selectedValue={selectedCategory}
+            onValueChange={(itemValue, itemIndex) =>
+                setSelectedCategory(itemValue)
+            }>
+            <Picker.Item label="Income 🍞" value="Income" />
+            <Picker.Item label="Groceries 🌮" value="Groceries" />
+            <Picker.Item label="Entertainment 🍿" value="Entertainment" />
+            <Picker.Item label="Utilities 💡" value="Utilities" />
+            <Picker.Item label="Rent 🏠" value="Rent" />
+        </Picker>
+        
+        
+        <RoundedButton enabled={amount > 0 && label !== ""} title="Save" backgroundColor={colors.blue} style={{marginTop: 20}} onPress={() => {
+            const datetime = new Date()
+            addNewTransaction({amount: parseFloat(amount), label, category: selectedCategory, datetime: datetime.toISOString()})
+            cleanup()
+        }}/>
+    </SafeAreaView>
+    </TouchableWithoutFeedback>
   )
 }
 
 export default AddScreen
+
+const styles = StyleSheet.create({
+    ...baseStyles,
+})

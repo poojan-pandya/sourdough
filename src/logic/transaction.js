@@ -10,6 +10,7 @@ export async function addNewTransaction(transaction) {
         }
         transactions.push(transaction);
         AsyncStorage.setItem('transactions', JSON.stringify(transactions));
+        console.log(transactions);
     } catch (error) {
         console.log(`ERROR IN addNewTransaction(): ${error}`);
     }
