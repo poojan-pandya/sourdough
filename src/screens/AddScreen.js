@@ -5,6 +5,7 @@ import { useIsFocused } from '@react-navigation/native'
 import { baseStyles, colors } from '../styles/baseStyles'
 import { Picker } from '@react-native-picker/picker'
 import { addNewTransaction } from '../logic/transaction'
+import "react-native-get-random-values"
 import { v4 as uuidv4 } from 'uuid'
 
 
