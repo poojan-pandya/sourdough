@@ -30,3 +30,21 @@ export async function getAllTransactions() {
         console.log(`ERROR IN getAllTransactions(): ${error}`);
     }
 }
+
+export async function getTransactionsByCategory(category) {
+    // Get all transactions and return an array, and catch errors
+    try {
+        let transactions = await AsyncStorage.getItem('transactions');
+        if (!transactions) {
+            transactions = [];
+        } else {
+            transactions = JSON.parse(transactions);
+        }
+        const filteredTransactions = transactions.filter((transaction) => {
+            return transaction.category === category;
+        });
+        return filteredTransactions;
+    } catch (error) {
+        console.log(`ERROR IN getTransactionsByCategory(): ${error}`);
+    }
+}
