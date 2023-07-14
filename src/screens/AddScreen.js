@@ -5,8 +5,7 @@ import { useIsFocused } from '@react-navigation/native'
 import { baseStyles, colors } from '../styles/baseStyles'
 import { Picker } from '@react-native-picker/picker'
 import { addNewTransaction } from '../logic/transaction'
-import "react-native-get-random-values"
-import { v4 as uuidv4 } from 'uuid'
+import uuid from 'react-native-uuid'
 
 
 
@@ -19,6 +18,7 @@ const AddScreen = () => {
   const amountFocused = useIsFocused();
 
     React.useEffect(() => {
+        // This is a hack to ensure the numeric keyboard comes up every time we navigate to this screen
         if (amountFocused) {
             amountRef.current.focus()
         }
@@ -89,7 +89,7 @@ const AddScreen = () => {
         
         <RoundedButton enabled={amount > 0 && label !== ""} title="Save" backgroundColor={colors.blue} style={{marginTop: 20}} onPress={() => {
             const datetime = new Date()
-            addNewTransaction({id: uuidv4(), amount: parseFloat(amount), label, category: selectedCategory, datetime: datetime.toISOString()})
+            addNewTransaction({id: uuid.v4(), amount: parseFloat(amount), label, category: selectedCategory, datetime: datetime.toISOString()})
             cleanup()
         }}/>
     </SafeAreaView>
