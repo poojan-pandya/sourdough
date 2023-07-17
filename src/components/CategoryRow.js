@@ -1,8 +1,46 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { baseStyles, colors, padding } from '../styles/baseStyles'
 import React from 'react'
+import { totalEarnedThisMonth, totalSpentForCategory } from '../logic/calculations'
 
-const CategoryRow = ({ text, amount, limit, emoji, onPress }) => {
+const CategoryRow = ({ text, limit, emoji, onPress }) => {
+
+    if (text === "Income") {
+        const [amount, setAmount] = React.useState(0);
+        React.useEffect(() => {
+            totalEarnedThisMonth().then((total) => {
+                setAmount(total);
+            }).catch((error) => {
+                console.log(error);
+            });
+        }, []);
+        return (
+            <TouchableOpacity onPress={onPress}>
+            <View style={{...styles.card, backgroundColor: colors.lightGreen}}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <View style={{flex:1, flexDirection: 'column', justifyContent: 'space-between', height:60}}>
+                        <Text style={styles.bold_p}>{text}</Text>
+                        <Text style={{...styles.bold_p}}>${amount}</Text>
+                    </View>
+                    <View style={{flexDirection: 'col', justifyContent: "center"}}>
+                        <Text style={styles.h1}>{emoji}</Text>
+                    </View>
+                </View>
+            </View>
+        </TouchableOpacity>
+        )
+    }
+
+    const [amount, setAmount] = React.useState(0);
+
+    React.useEffect(() => {
+        totalSpentForCategory(text).then((total) => {
+            setAmount(total);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }, []);
+
   return (
     <TouchableOpacity onPress={onPress}>
         <View style={styles.card}>

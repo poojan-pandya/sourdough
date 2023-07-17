@@ -5,6 +5,7 @@ import { useIsFocused } from '@react-navigation/native'
 import { baseStyles, colors } from '../styles/baseStyles'
 import { Picker } from '@react-native-picker/picker'
 import { addNewTransaction } from '../logic/transaction'
+import { getAllCategories } from '../logic/categories'
 import uuid from 'react-native-uuid'
 
 
@@ -12,6 +13,7 @@ import uuid from 'react-native-uuid'
 const AddScreen = () => {
 
   const [selectedCategory, setSelectedCategory] = React.useState("Income");
+  const [categories, setCategories] = React.useState({});
   const [amount, setAmount] = React.useState("");
   const [label, setLabel] = React.useState("");
   const amountRef = React.useRef(null);
@@ -22,6 +24,12 @@ const AddScreen = () => {
         if (amountFocused) {
             amountRef.current.focus()
         }
+
+        getAllCategories().then((categories) => {
+            setCategories(categories);
+        }).catch((error) => {
+            console.log(error);
+        });
 
         return () => {
             // Cleanup function to unfocus the TextInput when navigating away
@@ -79,17 +87,15 @@ const AddScreen = () => {
             onValueChange={(itemValue, itemIndex) =>
                 setSelectedCategory(itemValue)
             }>
-            <Picker.Item label="Income 🍞" value="Income" />
-            <Picker.Item label="Groceries 🌮" value="Groceries" />
-            <Picker.Item label="Entertainment 🍿" value="Entertainment" />
-            <Picker.Item label="Utilities 💡" value="Utilities" />
-            <Picker.Item label="Rent 🏠" value="Rent" />
+            {Object.keys(categories).map((category, i) => {
+                return <Picker.Item key={i} label={`${category} ${categories[category].emoji}`} value={category} />
+            })}
         </Picker>
         
         
-        <RoundedButton enabled={amount > 0 && label !== ""} title="Save" backgroundColor={colors.blue} style={{marginTop: 20}} onPress={() => {
+        <RoundedButton enabled={amount > 0 && label !== ""} title="Save" backgroundColor={colors.blue} style={{marginTop: 20}} onPress={async () => {
             const datetime = new Date()
-            addNewTransaction({id: uuid.v4(), amount: parseFloat(amount), label, category: selectedCategory, datetime: datetime.toISOString()})
+            await addNewTransaction({id: uuid.v4(), amount: parseFloat(amount), label, category: selectedCategory, datetime: datetime.toISOString()})
             cleanup()
         }}/>
     </SafeAreaView>

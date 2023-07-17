@@ -2,6 +2,8 @@ import { StyleSheet, Text, TextInput, SafeAreaView, View, TouchableWithoutFeedba
 import RoundedButton from '../components/RoundedButton';
 import { baseStyles, colors } from '../styles/baseStyles';
 import React from 'react'
+import { addNewCategory, isDuplicateCategory } from '../logic/categories';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const chooseRandomEmoji = () => {
     const emojis = [
@@ -20,7 +22,7 @@ const chooseRandomEmoji = () => {
       return emojis[Math.floor(Math.random()*emojis.length)];
 }
 
-const NewCategoryScreen = () => {
+const NewCategoryScreen = ({ navigation, route }) => {
   const [budget, setBudget] = React.useState(0);
   const [emoji, setEmoji] = React.useState("🌮");
   const [category, setCategory] = React.useState('');
@@ -81,8 +83,13 @@ const NewCategoryScreen = () => {
             value={emoji}
         />
         </View>
-        <RoundedButton enabled={true} title="Save" backgroundColor={colors.blue} style={{marginBottom: 20}} onPress={() => {
-            // TODO Save the category
+        <RoundedButton enabled={category && emoji && budget} title="Save" backgroundColor={colors.blue} style={{marginBottom: 20}} onPress={async () =>  {
+            if (await isDuplicateCategory(category, emoji)) {
+                alert('Category or emoji already used!');
+            } else {
+                await addNewCategory(category, budget, emoji)
+                navigation.goBack();
+            }
         }}/>
         </SafeAreaView>
         </TouchableWithoutFeedback>

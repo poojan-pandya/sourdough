@@ -6,7 +6,7 @@ import GraySquareWithEmoji from '../components/GraySquareWithEmoji'
 import { useFocusEffect } from '@react-navigation/native'
 import { totalSpentForCategory } from '../logic/calculations'
 import RoundedButton from '../components/RoundedButton'
-import { getBudget, updateBudget } from '../logic/budget'
+import { getBudget, updateBudget } from '../logic/categories'
 import { parse } from 'react-native-svg'
 import { getTransactionsByCategory } from '../logic/transaction'
 
