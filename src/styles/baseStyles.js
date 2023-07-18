@@ -7,7 +7,10 @@ export const colors  = {
   lightGreen: "#DDEFD6",
   lightRed: "#FBE2E2",
   lightGray: "#e5e5e5",
-  gray: "#808080"
+  gray: "#808080",
+  red: "#cd2f2b",
+  green: "#36791b",
+
 }
 
 export const padding = {

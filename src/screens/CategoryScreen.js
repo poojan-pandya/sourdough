@@ -6,8 +6,7 @@ import GraySquareWithEmoji from '../components/GraySquareWithEmoji'
 import { useFocusEffect } from '@react-navigation/native'
 import { totalSpentForCategory } from '../logic/calculations'
 import RoundedButton from '../components/RoundedButton'
-import { getBudget, updateBudget } from '../logic/categories'
-import { parse } from 'react-native-svg'
+import { getCategoryInfo, getLimitForCategory, setCategoryLimit } from '../logic/categories'
 import { getTransactionsByCategory } from '../logic/transaction'
 
 
@@ -22,10 +21,9 @@ const CategoryScreen = ({ route }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-        getBudget(category).then((ogBudget) => {
-            console.log("ogBudget", ogBudget);
-            setBudget(ogBudget);
-            console.log(budget);
+        getCategoryInfo(category).then((categoryInfo) => {
+            setEmoji(categoryInfo.emoji);
+            setBudget(categoryInfo.limit);
         }).catch((error) => {
             console.log(error);
         });
@@ -52,22 +50,6 @@ const CategoryScreen = ({ route }) => {
             setBudget(parseFloat(filteredText));
         }
     }
-
-    const handleEmojiChange = (text) => {
-        const emojiRegex = /\p{Emoji}/u;
-        const emojiMatch = text.match(emojiRegex);
-        if (emojiMatch) {
-            setEmoji(emojiMatch[0]);
-        } else {
-            setEmoji('');
-        }
-    };
-
-    const handleEmojiBlur = () => {
-        if (!emoji) {
-            setEmoji('🌮');
-        }
-    };
     
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -86,17 +68,11 @@ const CategoryScreen = ({ route }) => {
 
         <Text style={styles.h1}>per month for</Text>
         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 20}}>
-        <Text style={{...baseStyles.h1, marginRight: 10}}>{category} </Text>
-        <TextInput
-            style={styles.h1}
-            onChangeText={handleEmojiChange}
-            onBlur={handleEmojiBlur}
-            value={emoji}
-        />
+        <Text style={{...baseStyles.h1}}>{category}</Text>
         </View>
         <RoundedButton enabled={true} title="Save" backgroundColor={colors.blue} style={{marginBottom: 20}} onPress={() => {
             setBudget(parseFloat(budget).toFixed(2));
-            updateBudget(category, budget);
+            setCategoryLimit(category, budget);
         }}/>
         <ProgressBar progress={(total / budget) * 100}></ProgressBar>
         <Text style={{...styles.h2, marginTop: 10, marginBottom: 20}}>${total.toFixed(2)} <Text style={{...styles.bold_p, color: colors.gray}}>so far this month</Text></Text>
@@ -107,7 +83,7 @@ const CategoryScreen = ({ route }) => {
                 return (
                     <View key={transaction.id}>
                         <GraySquareWithEmoji
-                            emoji={transaction.emoji}
+                            emoji={emoji}
                             label={transaction.label}
                             date={new Date(transaction.datetime).toLocaleDateString()}
                             amount={transaction.amount}

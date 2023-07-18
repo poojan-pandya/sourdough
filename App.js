@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AddScreenStack from './src/screens/AddScreenStack';
 import ThisMonthScreenStack from './src/screens/ThisMonthScreenStack';
+import HistoryScreenStack from './src/screens/HistoryScreenStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,6 +14,7 @@ function App() {
         <Tab.Navigator screenOptions={{ headerShown: false }}>
           <Tab.Screen name="This Month" component={ThisMonthScreenStack} />
           <Tab.Screen name="Add" component={AddScreenStack} />
+          <Tab.Screen name="History" component={HistoryScreenStack}/>
         </Tab.Navigator>
       </NavigationContainer>
   );

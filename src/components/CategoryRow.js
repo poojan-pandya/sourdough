@@ -2,18 +2,19 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { baseStyles, colors, padding } from '../styles/baseStyles'
 import React from 'react'
 import { totalEarnedThisMonth, totalSpentForCategory } from '../logic/calculations'
+import { useFocusEffect } from '@react-navigation/native'
 
 const CategoryRow = ({ text, limit, emoji, onPress }) => {
 
     if (text === "Income") {
         const [amount, setAmount] = React.useState(0);
-        React.useEffect(() => {
+        useFocusEffect(React.useCallback(() => {
             totalEarnedThisMonth().then((total) => {
                 setAmount(total);
             }).catch((error) => {
                 console.log(error);
             });
-        }, []);
+        }, []));
         return (
             <TouchableOpacity onPress={onPress}>
             <View style={{...styles.card, backgroundColor: colors.lightGreen}}>
@@ -33,13 +34,13 @@ const CategoryRow = ({ text, limit, emoji, onPress }) => {
 
     const [amount, setAmount] = React.useState(0);
 
-    React.useEffect(() => {
+    useFocusEffect(React.useCallback(() => {
         totalSpentForCategory(text).then((total) => {
             setAmount(total);
         }).catch((error) => {
             console.log(error);
         });
-    }, []);
+    }, []));
 
   return (
     <TouchableOpacity onPress={onPress}>

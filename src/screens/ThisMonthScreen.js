@@ -55,9 +55,9 @@ const ThisMonthScreen = ({ navigation, route }) => {
                             text={category}
                             limit={categoryObj.limit}
                             emoji={categoryObj.emoji}
-                            onPress={() => {
+                            onPress={category !== "Income" ? () => {
                                 navigation.navigate('Category Screen', {category: category});
-                            }}
+                            } : () => {}}
                         />
                     </View>
                 )
