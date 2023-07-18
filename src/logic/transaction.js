@@ -48,3 +48,23 @@ export async function getTransactionsByCategory(category) {
         console.log(`ERROR IN getTransactionsByCategory(): ${error}`);
     }
 }
+
+export async function getTransactionsForMonth(month, year) {
+    // Get all transactions and return an array, and catch errors
+    try {
+        let transactions = await AsyncStorage.getItem('transactions');
+        if (!transactions) {
+            transactions = [];
+        } else {
+            transactions = JSON.parse(transactions);
+        }
+        const filteredTransactions = transactions.filter((transaction) => {
+            const transactionMonth = new Date(transaction.datetime).getMonth();
+            const transactionYear = new Date(transaction.datetime).getFullYear();
+            return transactionMonth === month && transactionYear === year;
+        });
+        return filteredTransactions;
+    } catch (error) {
+        console.log(`ERROR IN getTransactionsForMonth(): ${error}`);
+    }
+}

@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { monthYearToString, totalEarnedForMonth, totalSpentForMonth } from '../logic/history';
 import { baseStyles, colors, padding } from '../styles/baseStyles';
+import { useFocusEffect } from '@react-navigation/native';
 
 const HistoryRow = ({ month, year, onPress }) => {
     const [totalEarned, setTotalEarned] = useState(0);
     const [totalSpent, setTotalSpent] = useState(0);
 
-    useEffect(() => {
+    useFocusEffect(React.useCallback(() => {
         totalEarnedForMonth(month, year).then((total) => {
             setTotalEarned(total);
         }).catch((error) => {
@@ -18,7 +19,7 @@ const HistoryRow = ({ month, year, onPress }) => {
         }).catch((error) => {
             console.log(error);
         });
-    }, []);
+    }, []));
 
     return (
         <TouchableOpacity onPress={onPress}>

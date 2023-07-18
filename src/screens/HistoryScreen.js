@@ -3,11 +3,12 @@ import { baseStyles } from '../styles/baseStyles'
 import React, { useEffect, useState } from 'react'
 import { getAllMonths, monthYearSplit } from '../logic/history'
 import HistoryRow from '../components/HistoryRow'
+import { useFocusEffect } from '@react-navigation/native'
 
 const HistoryScreen = ({ navigation }) => {
     const [allMonths, setAllMonths] = useState([]);
 
-    useFoucsEffect(React.useCallback(() => {
+    useFocusEffect(React.useCallback(() => {
         getAllMonths().then((months) => {
             setAllMonths(months);
         }).catch((error) => {

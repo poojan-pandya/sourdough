@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AddScreenStack from './src/screens/AddScreenStack';
 import ThisMonthScreenStack from './src/screens/ThisMonthScreenStack';
 import HistoryScreenStack from './src/screens/HistoryScreenStack';
+import Ionicons from '@expo/vector-icons/Ionicons'
 
 const Tab = createBottomTabNavigator();
 

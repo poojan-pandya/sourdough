@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { baseStyles, colors } from '../styles/baseStyles';
 
-const GraySquareWithEmoji = ({ emoji, label, date, amount }) => {
+const GraySquareWithEmoji = ({ emoji, label, date, amount, category }) => {
   return (
     <TouchableWithoutFeedback>
     <View style={styles.container}>
@@ -16,7 +16,7 @@ const GraySquareWithEmoji = ({ emoji, label, date, amount }) => {
         <Text style={styles.date}>{date}</Text>
       </View>
       <View style={styles.rightContainer}>
-        <Text style={styles.amount}>${amount}</Text>
+        <Text style={styles.amount}>${amount.toFixed(2)}</Text>
       </View>
     </View>
     </TouchableWithoutFeedback>
