@@ -7,13 +7,13 @@ import HistoryRow from '../components/HistoryRow'
 const HistoryScreen = ({ navigation }) => {
     const [allMonths, setAllMonths] = useState([]);
 
-    useEffect(() => {
+    useFoucsEffect(React.useCallback(() => {
         getAllMonths().then((months) => {
             setAllMonths(months);
         }).catch((error) => {
             console.log(error);
         });
-    }, []);
+    }, []));
 
   return (
     <SafeAreaView style={styles.container}>
