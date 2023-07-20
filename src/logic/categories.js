@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import uuid from 'react-native-uuid';
 
 export async function getAllCategories() {
     try {
@@ -7,7 +8,8 @@ export async function getAllCategories() {
             categories = {
                 'Income': {
                     'limit': 0,
-                    'emoji': '🍞'
+                    'emoji': '🍞',
+                    'id': uuid.v4(),
                 },
             };
             AsyncStorage.setItem('categories', JSON.stringify(categories));
@@ -53,6 +55,7 @@ export async function addNewCategory(name, limit, emoji) {
         categories[name] = {
             limit: limit,
             emoji: emoji,
+            id: uuid.v4(),
         };
         AsyncStorage.setItem('categories', JSON.stringify(categories));
     } catch (error) {

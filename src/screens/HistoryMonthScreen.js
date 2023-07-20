@@ -51,7 +51,7 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 				{Object.keys(categories).map((category, i) => {
 					const categoryObj = categories[category];
 					return (
-						<View key={i}>
+						<View key={categoryObj.id}>
 							<HistoryCategoryRow
 								text={category}
 								emoji={categoryObj.emoji}

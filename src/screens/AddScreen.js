@@ -121,10 +121,11 @@ const AddScreen = () => {
 							}}
 						>
 							{Object.keys(categories).map((category, i) => {
+                                const categoryObj = categories[category];
 								return (
 									<Picker.Item
-										key={i}
-										label={`${category} ${categories[category].emoji}`}
+										key={categoryObj.id}
+										label={`${category} ${categoryObj.emoji}`}
 										value={category}
 									/>
 								);

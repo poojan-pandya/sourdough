@@ -8,6 +8,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import RoundedButton from "../components/RoundedButton";
 import { getTransactionsForMonth } from "../logic/transaction";
 import GraySquareWithEmoji from "../components/GraySquareWithEmoji";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const currentMonth = new Date().getMonth();
 const currentYear = new Date().getFullYear();
@@ -70,7 +71,7 @@ const ThisMonthScreen = ({ navigation, route }) => {
 				{Object.keys(categories).map((category, i) => {
 					const categoryObj = categories[category];
 					return (
-						<View key={i}>
+						<View key={categoryObj.id}>
 							<CategoryRow
 								text={category}
 								limit={categoryObj.limit}

@@ -28,7 +28,7 @@ const HistoryRow = ({ month, year, onPress }) => {
                     <View style={{flex:1, flexDirection: 'column', justifyContent: 'center', height:60}}>
                         <Text style={styles.h2}>{monthYearToString(month, year)}</Text>
                     </View>
-                    <View style={{flexDirection: 'col', justifyContent: "space-around"}}>
+                    <View style={{flexDirection: 'col', justifyContent: "space-around", alignItems: "flex-end"}}>
                         <Text style={{...styles.bold_p, color: colors.green}}>{`$${totalEarned.toFixed(2)} earned`}</Text>
                         <Text style={{...styles.bold_p, color: colors.red}}>{`$${totalSpent.toFixed(2)} spent`}</Text>
                     </View>
