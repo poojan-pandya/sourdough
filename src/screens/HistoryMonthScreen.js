@@ -25,7 +25,6 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 			getAllCategories()
 				.then((categories) => {
 					setCategories(categories);
-					console.log(categories);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -67,7 +66,7 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 				</Text>
 				{transactions.map((transaction, i) => {
 					return (
-						<View key={i}>
+						<View key={transaction.id}>
 							<GraySquareWithEmoji
 								emoji={categories[transaction.category].emoji}
 								label={transaction.label}

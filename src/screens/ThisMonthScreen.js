@@ -6,10 +6,20 @@ import { totalSpentThisMonth } from "../logic/calculations";
 import { getAllCategories } from "../logic/categories";
 import { useFocusEffect } from "@react-navigation/native";
 import RoundedButton from "../components/RoundedButton";
+import { getTransactionsForMonth } from "../logic/transaction";
+import GraySquareWithEmoji from "../components/GraySquareWithEmoji";
+
+const currentMonth = new Date().getMonth();
+const currentYear = new Date().getFullYear();
 
 const ThisMonthScreen = ({ navigation, route }) => {
 	const [categories, setCategories] = useState({});
 	const [totalSpent, setTotalSpent] = useState(0);
+	const [transactions, setTransactions] = useState([]);
+
+	const getEmoji = (category) => {
+		return categories[category].emoji;
+	};
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -24,6 +34,14 @@ const ThisMonthScreen = ({ navigation, route }) => {
 			getAllCategories()
 				.then((categories) => {
 					setCategories(categories);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+
+			getTransactionsForMonth(currentMonth, currentYear)
+				.then((transactions) => {
+					setTransactions(transactions);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -67,6 +85,23 @@ const ThisMonthScreen = ({ navigation, route }) => {
 										  }
 										: () => {}
 								}
+							/>
+						</View>
+					);
+				})}
+				<Text style={{ ...styles.h1, marginTop: 10 }}>
+					Transactions
+				</Text>
+				{transactions.map((transaction) => {
+					return (
+						<View key={transaction.id}>
+							<GraySquareWithEmoji
+								emoji={getEmoji(transaction.category)}
+								label={transaction.label}
+								date={new Date(
+									transaction.datetime
+								).toLocaleDateString()}
+								amount={transaction.amount}
 							/>
 						</View>
 					);

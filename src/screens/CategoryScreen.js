@@ -17,7 +17,13 @@ import { useFocusEffect } from "@react-navigation/native";
 import { totalSpentForCategory } from "../logic/calculations";
 import RoundedButton from "../components/RoundedButton";
 import { getCategoryInfo, setCategoryLimit } from "../logic/categories";
-import { getTransactionsByCategory } from "../logic/transaction";
+import {
+	getTransactionsByCategoryByMonth,
+	getTransactionsByCategory,
+} from "../logic/transaction";
+
+const currentMonth = new Date().getMonth();
+const currentYear = new Date().getFullYear();
 
 const CategoryScreen = ({ route }) => {
 	const { category } = route.params;
@@ -45,7 +51,7 @@ const CategoryScreen = ({ route }) => {
 					console.log(error);
 				});
 
-			getTransactionsByCategory(category)
+			getTransactionsByCategoryByMonth(category, currentMonth, currentYear)
 				.then((transactions) => {
 					setTransactions(transactions);
 				})
