@@ -38,19 +38,16 @@ export async function totalEarnedForMonth(month, year) {
 }
 
 export async function totalSpentForMonth(month, year) {
-    console.log(`totalSpentForMonth(): month: ${month}, year: ${year}`);
     try {
         let transactions = await getAllTransactions();
         let totalSpent = 0;
         transactions.map((transaction) => {
             const transactionMonth = new Date(transaction['datetime']).getMonth();
             const transactionYear = new Date(transaction['datetime']).getFullYear();
-            console.log(`transactionMonth: ${transactionMonth}, transactionYear: ${transactionYear}`);
             if (transaction['category']  !== 'Income' && transactionMonth === month && transactionYear === year) {
                 totalSpent += transaction.amount;
             }
         });
-        console.log(`totalSpentForMonth(): ${totalSpent}`)
         return totalSpent;
     } catch {
         console.log(`ERROR IN totalSpentForMonth(): ${error}`);

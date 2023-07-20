@@ -3,6 +3,7 @@ import { baseStyles, colors, padding } from '../styles/baseStyles'
 import React from 'react'
 import { totalEarnedThisMonth, totalSpentForCategory } from '../logic/calculations'
 import { useFocusEffect } from '@react-navigation/native'
+import { totalSpentForCategoryForMonth } from '../logic/history'
 
 const CategoryRow = ({ text, limit, emoji, onPress }) => {
 
@@ -35,7 +36,9 @@ const CategoryRow = ({ text, limit, emoji, onPress }) => {
     const [amount, setAmount] = React.useState(0);
 
     useFocusEffect(React.useCallback(() => {
-        totalSpentForCategory(text).then((total) => {
+        const month = new Date().getMonth();
+        const year = new Date().getFullYear();
+        totalSpentForCategoryForMonth(text, month, year).then((total) => {
             setAmount(total);
         }).catch((error) => {
             console.log(error);

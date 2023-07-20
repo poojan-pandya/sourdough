@@ -14,7 +14,6 @@ export async function getAllCategories() {
         } else {
             categories = JSON.parse(categories);
         }
-        console.log(categories);
         return categories;
     } catch (error) {
         console.log(`ERROR IN getAllCategories(): ${error}`);

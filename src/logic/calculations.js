@@ -28,6 +28,7 @@ export async function totalSpentThisMonth() {
     try {
         let transactions = await AsyncStorage.getItem('transactions');
         const currentMonth = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
         if (!transactions) {
             transactions = [];
         } else {
@@ -36,7 +37,8 @@ export async function totalSpentThisMonth() {
         let totalSpent = 0;
         transactions.map((transaction) => {
             const month = new Date(transaction['datetime']).getMonth();
-            if (transaction['category']  !== 'Income' && month === currentMonth) {
+            const year = new Date(transaction['datetime']).getFullYear();
+            if (transaction['category']  !== 'Income' && month === currentMonth && year === currentYear) {
                 totalSpent += transaction.amount;
             }
         });

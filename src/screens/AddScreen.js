@@ -61,6 +61,7 @@ const AddScreen = () => {
 		setAmount("");
 		setLabel("");
 		setSelectedCategory("Income");
+        setDate(new Date());
 		amountRef.current.focus();
 	};
 
@@ -160,13 +161,12 @@ const AddScreen = () => {
 					backgroundColor={colors.blue}
 					style={{ marginTop: 30 }}
 					onPress={async () => {
-						const datetime = new Date();
 						await addNewTransaction({
 							id: uuid.v4(),
 							amount: parseFloat(amount),
 							label,
 							category: selectedCategory,
-							datetime: datetime.toISOString(),
+							datetime: date.toISOString(),
 						});
 						cleanup();
 					}}

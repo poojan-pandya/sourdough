@@ -24,7 +24,6 @@ const ThisMonthScreen = ({ navigation, route }) => {
 			getAllCategories()
 				.then((categories) => {
 					setCategories(categories);
-					console.log(categories);
 				})
 				.catch((error) => {
 					console.log(error);
