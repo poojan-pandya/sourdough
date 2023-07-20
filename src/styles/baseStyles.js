@@ -10,6 +10,7 @@ export const colors = {
 	gray: "#808080",
 	red: "#cd2f2b",
 	green: "#36791b",
+    black: "#000000",
 };
 
 export const padding = {

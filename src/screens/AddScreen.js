@@ -6,7 +6,6 @@ import {
 	TextInput,
 	TouchableWithoutFeedback,
 	Keyboard,
-	TouchableOpacity,
 } from "react-native";
 import RoundedButton from "../components/RoundedButton";
 import React from "react";
@@ -16,7 +15,7 @@ import { Picker } from "@react-native-picker/picker";
 import { addNewTransaction } from "../logic/transaction";
 import { getAllCategories } from "../logic/categories";
 import uuid from "react-native-uuid";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const AddScreen = () => {
 	const [selectedCategory, setSelectedCategory] = React.useState("Income");
@@ -24,6 +23,7 @@ const AddScreen = () => {
 	const [amount, setAmount] = React.useState("");
 	const [label, setLabel] = React.useState("");
 	const [pickerExpanded, setPickerExpanded] = React.useState(false);
+	const [date, setDate] = React.useState(new Date());
 	const amountRef = React.useRef(null);
 	const amountFocused = useIsFocused();
 
@@ -100,12 +100,18 @@ const AddScreen = () => {
 					/>
 				</View>
 
-                <Text style={{...styles.h2, marginTop: 30, marginBottom: 10}}>Category</Text>
-				<TouchableOpacity onPress={() => setPickerExpanded(true)}>
+				<Text style={{ ...styles.h2, marginTop: 30, marginBottom: 10 }}>
+					Category
+				</Text>
+				<TouchableWithoutFeedback
+					onPress={() => setPickerExpanded(true)}
+				>
+                    <View>
 					<Picker
 						itemStyle={{
 							...baseStyles.bold_p,
 							height: getPickerHeight(pickerExpanded),
+                            backfaceVisibility: "hidden",
 						}}
 						selectedValue={selectedCategory}
 						onValueChange={(itemValue, itemIndex) => {
@@ -123,13 +129,35 @@ const AddScreen = () => {
 							);
 						})}
 					</Picker>
-				</TouchableOpacity>
+                    </View>
+				</TouchableWithoutFeedback>
+				<View style={{ flexDirection: "col", alignItems: "left" }}>
+					<Text
+						style={{
+							...styles.h2,
+							marginTop: 30,
+							marginBottom: 10,
+						}}
+					>
+						Date
+					</Text>
+					<DateTimePicker
+						value={date}
+						mode="date"
+						display="default"
+						onChange={(event, selectedDate) => {
+                            
+							const currentDate = selectedDate || date;
+							setDate(currentDate);
+						}}
+					/>
+				</View>
 
 				<RoundedButton
 					enabled={amount > 0 && label !== ""}
 					title="Save"
 					backgroundColor={colors.blue}
-					style={{ marginTop: 20 }}
+					style={{ marginTop: 30 }}
 					onPress={async () => {
 						const datetime = new Date();
 						await addNewTransaction({
