@@ -106,30 +106,30 @@ const AddScreen = () => {
 				<TouchableWithoutFeedback
 					onPress={() => setPickerExpanded(true)}
 				>
-                    <View>
-					<Picker
-						itemStyle={{
-							...baseStyles.bold_p,
-							height: getPickerHeight(pickerExpanded),
-                            backfaceVisibility: "hidden",
-						}}
-						selectedValue={selectedCategory}
-						onValueChange={(itemValue, itemIndex) => {
-							setSelectedCategory(itemValue);
-							setPickerExpanded(false);
-						}}
-					>
-						{Object.keys(categories).map((category, i) => {
-							return (
-								<Picker.Item
-									key={i}
-									label={`${category} ${categories[category].emoji}`}
-									value={category}
-								/>
-							);
-						})}
-					</Picker>
-                    </View>
+					<View>
+						<Picker
+							itemStyle={{
+								...baseStyles.bold_p,
+								height: getPickerHeight(pickerExpanded),
+								backfaceVisibility: "hidden",
+							}}
+							selectedValue={selectedCategory}
+							onValueChange={(itemValue, itemIndex) => {
+								setSelectedCategory(itemValue);
+								setPickerExpanded(false);
+							}}
+						>
+							{Object.keys(categories).map((category, i) => {
+								return (
+									<Picker.Item
+										key={i}
+										label={`${category} ${categories[category].emoji}`}
+										value={category}
+									/>
+								);
+							})}
+						</Picker>
+					</View>
 				</TouchableWithoutFeedback>
 				<View style={{ flexDirection: "col", alignItems: "left" }}>
 					<Text
@@ -145,8 +145,9 @@ const AddScreen = () => {
 						value={date}
 						mode="date"
 						display="default"
+						maximumDate={new Date()}
 						onChange={(event, selectedDate) => {
-                            
+							const todaysDate = new Date();
 							const currentDate = selectedDate || date;
 							setDate(currentDate);
 						}}
