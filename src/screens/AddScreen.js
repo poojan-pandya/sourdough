@@ -6,6 +6,7 @@ import {
 	TextInput,
 	TouchableWithoutFeedback,
 	Keyboard,
+	TouchableOpacity,
 } from "react-native";
 import RoundedButton from "../components/RoundedButton";
 import React from "react";
@@ -15,12 +16,14 @@ import { Picker } from "@react-native-picker/picker";
 import { addNewTransaction } from "../logic/transaction";
 import { getAllCategories } from "../logic/categories";
 import uuid from "react-native-uuid";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const AddScreen = () => {
 	const [selectedCategory, setSelectedCategory] = React.useState("Income");
 	const [categories, setCategories] = React.useState({});
 	const [amount, setAmount] = React.useState("");
 	const [label, setLabel] = React.useState("");
+	const [pickerExpanded, setPickerExpanded] = React.useState(false);
 	const amountRef = React.useRef(null);
 	const amountFocused = useIsFocused();
 
@@ -61,6 +64,14 @@ const AddScreen = () => {
 		amountRef.current.focus();
 	};
 
+	const getPickerHeight = (expanded) => {
+		if (expanded) {
+			return 200;
+		} else {
+			return 50;
+		}
+	};
+
 	return (
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 			<SafeAreaView style={styles.container}>
@@ -89,23 +100,30 @@ const AddScreen = () => {
 					/>
 				</View>
 
-				<Picker
-					itemStyle={baseStyles.bold_p}
-					selectedValue={selectedCategory}
-					onValueChange={(itemValue, itemIndex) =>
-						setSelectedCategory(itemValue)
-					}
-				>
-					{Object.keys(categories).map((category, i) => {
-						return (
-							<Picker.Item
-								key={i}
-								label={`${category} ${categories[category].emoji}`}
-								value={category}
-							/>
-						);
-					})}
-				</Picker>
+                <Text style={{...styles.h2, marginTop: 30, marginBottom: 10}}>Category</Text>
+				<TouchableOpacity onPress={() => setPickerExpanded(true)}>
+					<Picker
+						itemStyle={{
+							...baseStyles.bold_p,
+							height: getPickerHeight(pickerExpanded),
+						}}
+						selectedValue={selectedCategory}
+						onValueChange={(itemValue, itemIndex) => {
+							setSelectedCategory(itemValue);
+							setPickerExpanded(false);
+						}}
+					>
+						{Object.keys(categories).map((category, i) => {
+							return (
+								<Picker.Item
+									key={i}
+									label={`${category} ${categories[category].emoji}`}
+									value={category}
+								/>
+							);
+						})}
+					</Picker>
+				</TouchableOpacity>
 
 				<RoundedButton
 					enabled={amount > 0 && label !== ""}
