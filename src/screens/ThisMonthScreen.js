@@ -1,5 +1,5 @@
 import { StyleSheet, Text, SafeAreaView, ScrollView, View } from "react-native";
-import { useState } from "react";
+import React, { useState } from "react";
 import { baseStyles, colors } from "../styles/baseStyles";
 import CategoryRow from "../components/CategoryRow";
 import {
