@@ -30,12 +30,9 @@ const NewCategoryScreen = ({ navigation, route }) => {
 
 	const handleEmojiChange = (text) => {
 		const emojiRegex = /\p{Emoji}/u;
-		const emojiMatch = text.match(emojiRegex);
-		if (emojiMatch) {
-			setEmoji(emojiMatch[0]);
-		} else {
-			setEmoji("");
-		}
+        if ((text === "") || (!emoji && emojiRegex.test(text))){
+            setEmoji(text);
+        }
 	};
 
 	const handleEmojiBlur = () => {
@@ -70,6 +67,7 @@ const NewCategoryScreen = ({ navigation, route }) => {
 					{/* Empty space */}
 					<Text style={styles.h1}> </Text>
 					<TextInput
+                        contextMenuHidden={true}
 						style={styles.h1}
 						onChangeText={handleEmojiChange}
 						onBlur={handleEmojiBlur}

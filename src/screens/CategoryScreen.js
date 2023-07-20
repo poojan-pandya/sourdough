@@ -7,6 +7,7 @@ import {
 	TouchableWithoutFeedback,
 	Keyboard,
 	ScrollView,
+	Alert,
 } from "react-native";
 import React from "react";
 import { baseStyles, colors } from "../styles/baseStyles";
@@ -15,10 +16,7 @@ import GraySquareWithEmoji from "../components/GraySquareWithEmoji";
 import { useFocusEffect } from "@react-navigation/native";
 import { totalSpentForCategory } from "../logic/calculations";
 import RoundedButton from "../components/RoundedButton";
-import {
-	getCategoryInfo,
-	setCategoryLimit,
-} from "../logic/categories";
+import { getCategoryInfo, setCategoryLimit } from "../logic/categories";
 import { getTransactionsByCategory } from "../logic/transaction";
 
 const CategoryScreen = ({ route }) => {
@@ -68,51 +66,61 @@ const CategoryScreen = ({ route }) => {
 
 	return (
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-			<SafeAreaView style={styles.container}>
-				<Text style={styles.h1}>Budget </Text>
-				<View style={{ flexDirection: "row", alignItems: "center" }}>
-					<Text style={{ ...baseStyles.h1, color: colors.blue }}>
-						$
-					</Text>
-					<TextInput
-						style={{ ...baseStyles.h1, color: colors.blue }}
-						keyboardType="numeric"
-						onChangeText={handleInputChange}
-						value={budget ? budget.toString() : ""}
-						placeholder="0.00"
+			<ScrollView>
+				<SafeAreaView style={styles.container}>
+					<Text style={styles.h1}>Budget </Text>
+					<View
+						style={{ flexDirection: "row", alignItems: "center" }}
+					>
+						<Text style={{ ...baseStyles.h1, color: colors.blue }}>
+							$
+						</Text>
+						<TextInput
+							style={{ ...baseStyles.h1, color: colors.blue }}
+							keyboardType="numeric"
+							onChangeText={handleInputChange}
+							value={budget ? budget.toString() : ""}
+							placeholder="0.00"
+						/>
+					</View>
+
+					<Text style={styles.h1}>per month for</Text>
+					<View
+						style={{
+							flexDirection: "row",
+							alignItems: "center",
+							marginBottom: 20,
+						}}
+					>
+						<Text style={{ ...baseStyles.h1 }}>{category}</Text>
+					</View>
+					<RoundedButton
+						enabled={true}
+						title="Save"
+						backgroundColor={colors.blue}
+						style={{ marginBottom: 20 }}
+						onPress={() => {
+							setBudget(parseFloat(budget).toFixed(2));
+							setCategoryLimit(category, budget);
+						}}
 					/>
-				</View>
-
-				<Text style={styles.h1}>per month for</Text>
-				<View
-					style={{
-						flexDirection: "row",
-						alignItems: "center",
-						marginBottom: 20,
-					}}
-				>
-					<Text style={{ ...baseStyles.h1 }}>{category}</Text>
-				</View>
-				<RoundedButton
-					enabled={true}
-					title="Save"
-					backgroundColor={colors.blue}
-					style={{ marginBottom: 20 }}
-					onPress={() => {
-						setBudget(parseFloat(budget).toFixed(2));
-						setCategoryLimit(category, budget);
-					}}
-				/>
-				<ProgressBar progress={(total / budget) * 100}></ProgressBar>
-				<Text style={{ ...styles.h2, marginTop: 10, marginBottom: 20 }}>
-					${total.toFixed(2)}{" "}
-					<Text style={{ ...styles.bold_p, color: colors.gray }}>
-						so far this month
+					<ProgressBar
+						progress={(total / budget) * 100}
+					></ProgressBar>
+					<Text
+						style={{
+							...styles.h2,
+							marginTop: 10,
+							marginBottom: 20,
+						}}
+					>
+						${total.toFixed(2)}{" "}
+						<Text style={{ ...styles.bold_p, color: colors.gray }}>
+							so far this month
+						</Text>
 					</Text>
-				</Text>
 
-				<Text style={styles.h1}>Transactions</Text>
-				<ScrollView>
+					<Text style={styles.h1}>Transactions</Text>
 					{transactions.map((transaction) => {
 						return (
 							<View key={transaction.id}>
@@ -127,8 +135,33 @@ const CategoryScreen = ({ route }) => {
 							</View>
 						);
 					})}
-				</ScrollView>
-			</SafeAreaView>
+					<RoundedButton
+						enabled={true}
+						title="Delete Category"
+						backgroundColor={colors.red}
+						style={{ marginTop: 50, marginBottom: 20 }}
+						onPress={() => {
+							Alert.alert(
+								"Are you sure you want to delete this category?",
+								"You can no longer add new transactions to this category. Your existing transactions will remain unaffected.",
+								[
+									{
+										text: "Cancel",
+										style: "cancel",
+									},
+									{
+										text: "Delete",
+										style: "destructive",
+										onPress: () => {
+											Alert.alert("Category deleted");
+										},
+									},
+								]
+							);
+						}}
+					/>
+				</SafeAreaView>
+			</ScrollView>
 		</TouchableWithoutFeedback>
 	);
 };

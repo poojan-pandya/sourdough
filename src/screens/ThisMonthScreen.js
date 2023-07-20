@@ -2,11 +2,7 @@ import { StyleSheet, Text, SafeAreaView, ScrollView, View } from "react-native";
 import React, { useState } from "react";
 import { baseStyles, colors } from "../styles/baseStyles";
 import CategoryRow from "../components/CategoryRow";
-import {
-	totalEarnedThisMonth,
-	totalSpentForCategory,
-	totalSpentThisMonth,
-} from "../logic/calculations";
+import { totalSpentThisMonth } from "../logic/calculations";
 import { getAllCategories } from "../logic/categories";
 import { useFocusEffect } from "@react-navigation/native";
 import RoundedButton from "../components/RoundedButton";
@@ -17,14 +13,6 @@ const ThisMonthScreen = ({ navigation, route }) => {
 
 	useFocusEffect(
 		React.useCallback(() => {
-			totalEarnedThisMonth()
-				.then((total) => {
-					setTotalEarned(total);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-
 			totalSpentThisMonth()
 				.then((total) => {
 					setTotalSpent(total);
