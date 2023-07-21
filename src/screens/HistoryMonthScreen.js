@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { baseStyles } from "../styles/baseStyles";
 import { monthYearToString, totalSpentForMonth } from "../logic/history";
 import { useFocusEffect } from "@react-navigation/native";
-import { getAllCategories } from "../logic/categories";
+import { getAllCategories, getAllCategoriesForMonth } from "../logic/categories";
 import HistoryCategoryRow from "../components/HistoryCategoryRow";
 import { getTransactionsForMonth } from "../logic/transaction";
 import GraySquareWithEmoji from "../components/GraySquareWithEmoji";
@@ -22,7 +22,7 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 				.catch((error) => {
 					console.log(error);
 				});
-			getAllCategories()
+			getAllCategoriesForMonth(route.params.month, route.params.year)
 				.then((categories) => {
 					setCategories(categories);
 				})

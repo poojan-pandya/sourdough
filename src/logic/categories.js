@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
+import { getAllTransactions, getTransactionsForMonth } from './transaction';
 
 export async function getAllCategories() {
     try {
@@ -21,6 +22,37 @@ export async function getAllCategories() {
         console.log(`ERROR IN getAllCategories(): ${error}`);
     }
 }
+
+export async function getAllCategoriesForMonth(month, year) {
+    try {
+        let [transactions, categories] = await Promise.all([
+            getTransactionsForMonth(month, year),
+            getAllCategories(),
+        ]);
+        console.log('categories', categories);
+        console.log('filtered transactions', transactions);
+        const categoryNames = [];
+        for (let i = 0; i < transactions.length; i++) {
+            if (!categoryNames.includes(transactions[i].category)) {
+                categoryNames.push(transactions[i].category);
+            }
+        }
+        console.log('category names', categoryNames);
+        let filteredCategories = {};
+        for (const key in categories) {
+            if (categoryNames.includes(key)) {
+                filteredCategories[key] = categories[key];
+            }
+        }
+        console.log('filteredCategories', filteredCategories);
+        return filteredCategories;
+    } catch (error) {
+        console.log(`ERROR IN getAllCategoriesForMonth(): ${error}`);
+    }
+}
+
+
+
 
 export async function isDuplicateCategory(name, emoji) {
     try {
