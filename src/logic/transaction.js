@@ -10,6 +10,19 @@ export async function addNewTransaction(transaction) {
 	}
 }
 
+export async function deleteTransaction(id) {
+	try {
+		let transactions = await getAllTransactions();
+		transactions = transactions.filter((transaction) => {
+			return transaction.id !== id;
+		}
+		);
+		AsyncStorage.setItem("transactions", JSON.stringify(transactions));
+	} catch {
+		console.log(`ERROR IN deleteTransaction(): ${error}`);
+	}
+}
+
 export async function getAllTransactions() {
 	try {
 		let transactions = await AsyncStorage.getItem("transactions");

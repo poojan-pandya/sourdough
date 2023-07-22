@@ -12,10 +12,14 @@ import {
 import React from "react";
 import { baseStyles, colors } from "../styles/baseStyles";
 import ProgressBar from "../components/ProgressBar";
-import GraySquareWithEmoji from "../components/GraySquareWithEmoji";
+import TransactionRow from "../components/GraySquareWithEmoji";
 import { useFocusEffect } from "@react-navigation/native";
 import RoundedButton from "../components/RoundedButton";
-import { getCategoryInfo, setCategoryLimit, deleteCategory } from "../logic/categories";
+import {
+	getCategoryInfo,
+	setCategoryLimit,
+	deleteCategory,
+} from "../logic/categories";
 import { getTransactionsByCategoryByMonth } from "../logic/transaction";
 import { totalSpentForCategoryForMonth } from "../logic/history";
 
@@ -131,13 +135,14 @@ const CategoryScreen = ({ navigation, route }) => {
 					{transactions.map((transaction) => {
 						return (
 							<View key={transaction.id}>
-								<GraySquareWithEmoji
+								<TransactionRow
 									emoji={emoji}
 									label={transaction.label}
 									date={new Date(
 										transaction.datetime
 									).toLocaleDateString()}
 									amount={transaction.amount}
+									id={transaction.id}
 								/>
 							</View>
 						);

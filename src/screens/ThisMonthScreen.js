@@ -7,7 +7,7 @@ import { getAllActiveCategories, getAllCategories } from "../logic/categories";
 import { useFocusEffect } from "@react-navigation/native";
 import RoundedButton from "../components/RoundedButton";
 import { getTransactionsForMonth } from "../logic/transaction";
-import GraySquareWithEmoji from "../components/GraySquareWithEmoji";
+import TransactionRow from "../components/GraySquareWithEmoji";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const currentMonth = new Date().getMonth();
@@ -105,13 +105,14 @@ const ThisMonthScreen = ({ navigation, route }) => {
 				{transactions.map((transaction) => {
 					return (
 						<View key={transaction.id}>
-							<GraySquareWithEmoji
+							<TransactionRow
 								emoji={getEmoji(transaction.category)}
 								label={transaction.label}
 								date={new Date(
 									transaction.datetime
 								).toLocaleDateString()}
 								amount={transaction.amount}
+								id={transaction.id}
 							/>
 						</View>
 					);

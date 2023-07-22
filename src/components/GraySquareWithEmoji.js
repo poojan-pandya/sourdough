@@ -1,70 +1,128 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { baseStyles, colors } from '../styles/baseStyles';
+import React from "react";
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Animated, Alert } from "react-native";
+import { baseStyles, colors } from "../styles/baseStyles";
+import { RectButton } from "react-native-gesture-handler";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 
-const GraySquareWithEmoji = ({ emoji, label, date, amount, category }) => {
+const renderRightActions = (progress, dragX) => {
+  const trans = dragX.interpolate({
+    inputRange: [0, 50, 100, 101],
+    outputRange: [0, 0, 0, 1],
+  });
   return (
-    <TouchableWithoutFeedback>
-    <View style={styles.container}>
-      <View style={styles.leftContainer}>
-        <View style={styles.graySquare}>
-          <Text style={styles.emoji}>{emoji}</Text>
-        </View>
-      </View>
-      <View style={styles.middleContainer}>
-        <Text style={styles.label}>{label}</Text>
-        <Text style={styles.date}>{date}</Text>
-      </View>
-      <View style={styles.rightContainer}>
-        <Text style={styles.amount}>${amount.toFixed(2)}</Text>
-      </View>
-    </View>
-    </TouchableWithoutFeedback>
+    <RectButton style={styles.rightAction} onPress={() => {
+		Alert.alert(
+			"Are you sure you want to delete this category?",
+			"You can no longer add new transactions to this category. Your existing transactions will remain unaffected.",
+			[
+				{
+					text: "Cancel",
+					style: "cancel",
+				},
+				{
+					text: "Delete",
+					style: "destructive",
+					onPress: async () => {
+						console.log("Transaction (not actually) deleted")
+					},
+				},
+			]
+		);
+    }}>
+      <Animated.Text
+        style={[
+          baseStyles.bold_p,
+          {
+            transform: [{ translateX: trans }],
+            color: "white",
+            paddingRight: 10,
+          },
+        ]}>
+        Delete
+      </Animated.Text>
+    </RectButton>
   );
 };
 
+const TransactionRow = ({ emoji, label, date, amount, category }) => {
+	return (
+		<Swipeable renderRightActions={renderRightActions} rightThreshold={50}>
+				<View style={styles.container}>
+					<View style={styles.leftContainer}>
+						<View style={styles.graySquare}>
+							<Text style={styles.emoji}>{emoji}</Text>
+						</View>
+					</View>
+					<View style={styles.middleContainer}>
+						<Text style={styles.label}>{label}</Text>
+						<Text style={styles.date}>{date}</Text>
+					</View>
+					<View style={styles.rightContainer}>
+						<Text style={styles.amount}>${amount.toFixed(2)}</Text>
+					</View>
+				</View>
+		</Swipeable>
+	);
+};
+
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 8
-    // paddingHorizontal: 16,
-    // paddingVertical: 8,
-  },
-  leftContainer: {
-    marginRight: 16,
-  },
-  graySquare: {
-    backgroundColor: colors.lightGray,
-    borderRadius: 8,
-    width: 60,
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emoji: {
-    fontSize: baseStyles.h1.fontSize,
-  },
-  middleContainer: {
+	container: {
+		flexDirection: "row",
+		alignItems: "center",
+		marginVertical: 8,
+	},
+	leftContainer: {
+		marginRight: 16,
+	},
+	graySquare: {
+		backgroundColor: colors.lightGray,
+		borderRadius: 8,
+		width: 60,
+		height: 60,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	emoji: {
+		fontSize: baseStyles.h1.fontSize,
+	},
+	middleContainer: {
+		flex: 1,
+		marginRight: 16,
+	},
+	label: {
+		fontSize: 16,
+		fontWeight: "bold",
+		marginBottom: 4,
+	},
+	date: {
+		fontSize: 16,
+		color: colors.gray,
+	},
+	rightContainer: {
+		alignItems: "flex-end",
+	},
+	amount: {
+		fontSize: 20,
+		fontWeight: "bold",
+	},
+  leftAction: {
     flex: 1,
-    marginRight: 16,
+    backgroundColor: '#497AFC',
+    justifyContent: 'center',
   },
-  label: {
+  actionText: {
+    color: 'white',
     fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    backgroundColor: 'transparent',
+    padding: 10,
   },
-  date: {
-    fontSize: 16,
-    color: colors.gray,
-  },
-  rightContainer: {
+  rightAction: {
     alignItems: 'flex-end',
-  },
-  amount: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: colors.red,
+    borderRadius: 8,
   },
 });
 
-export default GraySquareWithEmoji;
+export default TransactionRow;

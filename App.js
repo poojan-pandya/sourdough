@@ -6,6 +6,7 @@ import ThisMonthScreenStack from './src/screens/ThisMonthScreenStack';
 import HistoryScreenStack from './src/screens/HistoryScreenStack';
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { colors } from './src/styles/baseStyles';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const Tab = createBottomTabNavigator();
 

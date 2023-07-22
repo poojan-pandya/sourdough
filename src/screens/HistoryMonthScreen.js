@@ -3,10 +3,13 @@ import React, { useState } from "react";
 import { baseStyles } from "../styles/baseStyles";
 import { monthYearToString, totalSpentForMonth } from "../logic/history";
 import { useFocusEffect } from "@react-navigation/native";
-import { getAllCategories, getAllCategoriesForMonth } from "../logic/categories";
+import {
+	getAllCategories,
+	getAllCategoriesForMonth,
+} from "../logic/categories";
 import HistoryCategoryRow from "../components/HistoryCategoryRow";
 import { getTransactionsForMonth } from "../logic/transaction";
-import GraySquareWithEmoji from "../components/GraySquareWithEmoji";
+import TransactionRow from "../components/GraySquareWithEmoji";
 
 const HistoryMonthScreen = ({ navigation, route }) => {
 	const [categories, setCategories] = useState({});
@@ -67,13 +70,14 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 				{transactions.map((transaction, i) => {
 					return (
 						<View key={transaction.id}>
-							<GraySquareWithEmoji
+							<TransactionRow
 								emoji={categories[transaction.category].emoji}
 								label={transaction.label}
 								date={new Date(
 									transaction.datetime
 								).toLocaleDateString()}
 								amount={transaction.amount}
+								id={transaction.id}
 							/>
 						</View>
 					);
