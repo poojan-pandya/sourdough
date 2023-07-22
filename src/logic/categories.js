@@ -29,30 +29,23 @@ export async function getAllCategoriesForMonth(month, year) {
             getTransactionsForMonth(month, year),
             getAllCategories(),
         ]);
-        console.log('categories', categories);
-        console.log('filtered transactions', transactions);
         const categoryNames = [];
         for (let i = 0; i < transactions.length; i++) {
             if (!categoryNames.includes(transactions[i].category)) {
                 categoryNames.push(transactions[i].category);
             }
         }
-        console.log('category names', categoryNames);
         let filteredCategories = {};
         for (const key in categories) {
             if (categoryNames.includes(key)) {
                 filteredCategories[key] = categories[key];
             }
         }
-        console.log('filteredCategories', filteredCategories);
         return filteredCategories;
     } catch (error) {
         console.log(`ERROR IN getAllCategoriesForMonth(): ${error}`);
     }
 }
-
-
-
 
 export async function isDuplicateCategory(name, emoji) {
     try {
@@ -78,12 +71,7 @@ export async function isDuplicateCategory(name, emoji) {
 
 export async function addNewCategory(name, limit, emoji) {
     try {
-        let categories = await AsyncStorage.getItem('categories');
-        if (!categories) {
-            categories = {};
-        } else {
-            categories = JSON.parse(categories);
-        }
+        let categories = await getAllCategories();
         categories[name] = {
             limit: limit,
             emoji: emoji,
@@ -121,20 +109,5 @@ export async function setCategoryLimit(category, limit) {
         AsyncStorage.setItem('categories', JSON.stringify(categories));
     } catch (error) {
         console.log(`ERROR IN setCategoryLimit(): ${error}`);
-    }
-}
-
-export async function setCategoryEmoji(category, emoji) {
-    try {
-        let categories = await AsyncStorage.getItem('categories');
-        if (!categories) {
-            categories = {};
-        } else {
-            categories = JSON.parse(categories);
-        }
-        categories[category].emoji = emoji;
-        AsyncStorage.setItem('categories', JSON.stringify(categories));
-    } catch (error) {
-        console.log(`ERROR IN setCategoryEmoji(): ${error}`);
     }
 }

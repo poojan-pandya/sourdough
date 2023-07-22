@@ -1,24 +1,18 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getAllTransactions, getTransactionsByCategoryByMonth, getTransactionsForMonth } from './transaction';
 
 export async function totalEarnedThisMonth() {
-    // Get all transactions and return an array, and catch errors
     try {
-        let transactions = await AsyncStorage.getItem('transactions');
-        const currentMonth = new Date().getMonth();
-        if (!transactions) {
-            transactions = [];
-        } else {
-            transactions = JSON.parse(transactions);
-        }
+        let month = new Date().getMonth();
+        let year = new Date().getFullYear();
+        let transactions = await getTransactionsByCategoryByMonth("Income", month, year);
         let totalEarned = 0;
         transactions.map((transaction) => {
-            const month = new Date(transaction['datetime']).getMonth();
-            if (transaction['category']  === 'Income' && month === currentMonth) {
-                totalEarned += transaction.amount;
-            }
-        });
+            totalEarned += transaction.amount;
+        }
+        );
         return totalEarned;
-    } catch (error) {
+    } catch {
         console.log(`ERROR IN totalEarnedThisMonth(): ${error}`);
     }
 } 
@@ -26,45 +20,17 @@ export async function totalEarnedThisMonth() {
 export async function totalSpentThisMonth() {
     // Get all transactions and return an array, and catch errors
     try {
-        let transactions = await AsyncStorage.getItem('transactions');
-        const currentMonth = new Date().getMonth();
-        const currentYear = new Date().getFullYear();
-        if (!transactions) {
-            transactions = [];
-        } else {
-            transactions = JSON.parse(transactions);
-        }
+        const month = new Date().getMonth();
+        const year = new Date().getFullYear();
+        const transactions = await getTransactionsForMonth(month, year);
         let totalSpent = 0;
         transactions.map((transaction) => {
-            const month = new Date(transaction['datetime']).getMonth();
-            const year = new Date(transaction['datetime']).getFullYear();
-            if (transaction['category']  !== 'Income' && month === currentMonth && year === currentYear) {
+            if (transaction.category !== "Income") {
                 totalSpent += transaction.amount;
             }
         });
         return totalSpent;
     } catch (error) {
         console.log(`ERROR IN totalSpentThisMonth(): ${error}`);
-    }
-}
-
-export async function totalSpentForCategory(category) {
-    // Get all transactions and return an array, and catch errors
-    try {
-        let transactions = await AsyncStorage.getItem('transactions');
-        if (!transactions) {
-            transactions = [];
-        } else {
-            transactions = JSON.parse(transactions);
-        }
-        let totalEarned = 0;
-        transactions.map((transaction) => {
-            if (transaction['category']  === category) {
-                totalEarned += transaction.amount;
-            }
-        });
-        return totalEarned;
-    } catch (error) {
-        console.log(`ERROR IN totalEarnedForCategory(): ${error}`);
     }
 }

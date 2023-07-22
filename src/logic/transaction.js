@@ -2,12 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function addNewTransaction(transaction) {
 	try {
-		let transactions = await AsyncStorage.getItem("transactions");
-		if (!transactions) {
-			transactions = [];
-		} else {
-			transactions = JSON.parse(transactions);
-		}
+		let transactions = await getAllTransactions();
 		transactions.push(transaction);
 		AsyncStorage.setItem("transactions", JSON.stringify(transactions));
 	} catch (error) {
@@ -15,9 +10,7 @@ export async function addNewTransaction(transaction) {
 	}
 }
 
-
 export async function getAllTransactions() {
-	// Get all transactions and return an array, and catch errors
 	try {
 		let transactions = await AsyncStorage.getItem("transactions");
 		if (!transactions) {
@@ -32,14 +25,8 @@ export async function getAllTransactions() {
 }
 
 export async function getTransactionsByCategory(category) {
-	// Get all transactions and return an array, and catch errors
 	try {
-		let transactions = await AsyncStorage.getItem("transactions");
-		if (!transactions) {
-			transactions = [];
-		} else {
-			transactions = JSON.parse(transactions);
-		}
+		let transactions = await getAllTransactions();
 		const filteredTransactions = transactions.filter((transaction) => {
 			return transaction.category === category;
 		});
@@ -50,14 +37,8 @@ export async function getTransactionsByCategory(category) {
 }
 
 export async function getTransactionsByCategoryByMonth(category, month, year) {
-	// Get all transactions and return an array, and catch errors
 	try {
-		let transactions = await AsyncStorage.getItem("transactions");
-		if (!transactions) {
-			transactions = [];
-		} else {
-			transactions = JSON.parse(transactions);
-		}
+		let transactions = await getAllTransactions();
 		const filteredTransactions = transactions.filter((transaction) => {
 			const transactionMonth = new Date(transaction.datetime).getMonth();
 			const transactionYear = new Date(
@@ -76,14 +57,8 @@ export async function getTransactionsByCategoryByMonth(category, month, year) {
 }
 
 export async function getTransactionsForMonth(month, year) {
-	// Get all transactions and return an array, and catch errors
 	try {
-		let transactions = await AsyncStorage.getItem("transactions");
-		if (!transactions) {
-			transactions = [];
-		} else {
-			transactions = JSON.parse(transactions);
-		}
+		let transactions = await getAllTransactions();
 		const filteredTransactions = transactions.filter((transaction) => {
 			const transactionMonth = new Date(transaction.datetime).getMonth();
 			const transactionYear = new Date(

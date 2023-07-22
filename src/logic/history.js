@@ -1,6 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getAllTransactions } from "./transaction";
-import { totalSpentForCategory } from "./calculations";
 
 export async function getAllMonths() {
     try {

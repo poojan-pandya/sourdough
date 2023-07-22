@@ -14,13 +14,10 @@ import { baseStyles, colors } from "../styles/baseStyles";
 import ProgressBar from "../components/ProgressBar";
 import GraySquareWithEmoji from "../components/GraySquareWithEmoji";
 import { useFocusEffect } from "@react-navigation/native";
-import { totalSpentForCategory } from "../logic/calculations";
 import RoundedButton from "../components/RoundedButton";
 import { getCategoryInfo, setCategoryLimit } from "../logic/categories";
-import {
-	getTransactionsByCategoryByMonth,
-	getTransactionsByCategory,
-} from "../logic/transaction";
+import { getTransactionsByCategoryByMonth } from "../logic/transaction";
+import { totalSpentForCategoryForMonth } from "../logic/history";
 
 const currentMonth = new Date().getMonth();
 const currentYear = new Date().getFullYear();
@@ -43,7 +40,7 @@ const CategoryScreen = ({ route }) => {
 					console.log(error);
 				});
 
-			totalSpentForCategory(category)
+			totalSpentForCategoryForMonth(category, currentMonth, currentYear)
 				.then((total) => {
 					setTotal(total);
 				})
@@ -51,7 +48,11 @@ const CategoryScreen = ({ route }) => {
 					console.log(error);
 				});
 
-			getTransactionsByCategoryByMonth(category, currentMonth, currentYear)
+			getTransactionsByCategoryByMonth(
+				category,
+				currentMonth,
+				currentYear
+			)
 				.then((transactions) => {
 					setTransactions(transactions);
 				})
