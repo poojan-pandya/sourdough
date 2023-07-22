@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { baseStyles, colors } from "../styles/baseStyles";
 import CategoryRow from "../components/CategoryRow";
 import { totalSpentThisMonth } from "../logic/calculations";
-import { getAllCategories } from "../logic/categories";
+import { getAllActiveCategories, getAllCategories } from "../logic/categories";
 import { useFocusEffect } from "@react-navigation/native";
 import RoundedButton from "../components/RoundedButton";
 import { getTransactionsForMonth } from "../logic/transaction";
@@ -14,12 +14,13 @@ const currentMonth = new Date().getMonth();
 const currentYear = new Date().getFullYear();
 
 const ThisMonthScreen = ({ navigation, route }) => {
-	const [categories, setCategories] = useState({});
+	const [allCategories, setAllCategories] = useState({});
+	const [activeCategories, setActiveCategories] = useState({});
 	const [totalSpent, setTotalSpent] = useState(0);
 	const [transactions, setTransactions] = useState([]);
 
 	const getEmoji = (category) => {
-		return categories[category].emoji;
+		return allCategories[category].emoji;
 	};
 
 	useFocusEffect(
@@ -32,9 +33,17 @@ const ThisMonthScreen = ({ navigation, route }) => {
 					console.log(error);
 				});
 
+			getAllActiveCategories()
+				.then((categories) => {
+					setActiveCategories(categories);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+
 			getAllCategories()
 				.then((categories) => {
-					setCategories(categories);
+					setAllCategories(categories);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -68,8 +77,8 @@ const ThisMonthScreen = ({ navigation, route }) => {
 				/>
 			</View>
 			<ScrollView style={styles.allCategoriesScroll}>
-				{Object.keys(categories).map((category, i) => {
-					const categoryObj = categories[category];
+				{Object.keys(activeCategories).map((category, i) => {
+					const categoryObj = activeCategories[category];
 					return (
 						<View key={categoryObj.id}>
 							<CategoryRow

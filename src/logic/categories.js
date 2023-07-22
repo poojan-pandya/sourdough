@@ -2,6 +2,31 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 import { getAllTransactions, getTransactionsForMonth } from './transaction';
 
+export async function getAllActiveCategories() {
+    try {
+        let categories = await getAllCategories();
+        let activeCategories = {};
+        for (const key in categories) {
+            if (!categories[key].hasOwnProperty('deleted') || !categories[key].deleted) {
+                activeCategories[key] = categories[key];
+            }
+        }
+        return activeCategories;
+    } catch (error) {
+        console.log(`ERROR IN getAllActiveCategories(): ${error}`);
+    }
+}
+
+export async function deleteCategory(category) {
+    try {
+        let categories = await getAllCategories();
+        categories[category].deleted = true;
+        AsyncStorage.setItem('categories', JSON.stringify(categories));
+    } catch (error) {
+        console.log(`ERROR IN deleteCategory(): ${error}`);
+    }
+}
+
 export async function getAllCategories() {
     try {
         let categories = await AsyncStorage.getItem('categories');

@@ -15,14 +15,14 @@ import ProgressBar from "../components/ProgressBar";
 import GraySquareWithEmoji from "../components/GraySquareWithEmoji";
 import { useFocusEffect } from "@react-navigation/native";
 import RoundedButton from "../components/RoundedButton";
-import { getCategoryInfo, setCategoryLimit } from "../logic/categories";
+import { getCategoryInfo, setCategoryLimit, deleteCategory } from "../logic/categories";
 import { getTransactionsByCategoryByMonth } from "../logic/transaction";
 import { totalSpentForCategoryForMonth } from "../logic/history";
 
 const currentMonth = new Date().getMonth();
 const currentYear = new Date().getFullYear();
 
-const CategoryScreen = ({ route }) => {
+const CategoryScreen = ({ navigation, route }) => {
 	const { category } = route.params;
 	const [budget, setBudget] = React.useState(0);
 	const [emoji, setEmoji] = React.useState("🌮");
@@ -159,8 +159,9 @@ const CategoryScreen = ({ route }) => {
 									{
 										text: "Delete",
 										style: "destructive",
-										onPress: () => {
-											Alert.alert("Category deleted");
+										onPress: async () => {
+											await deleteCategory(category);
+											navigation.goBack();
 										},
 									},
 								]
