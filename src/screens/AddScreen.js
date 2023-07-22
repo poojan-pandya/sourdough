@@ -13,13 +13,13 @@ import { useIsFocused } from "@react-navigation/native";
 import { baseStyles, colors } from "../styles/baseStyles";
 import { Picker } from "@react-native-picker/picker";
 import { addNewTransaction } from "../logic/transaction";
-import { getAllCategories } from "../logic/categories";
+import { getAllActiveCategories } from "../logic/categories";
 import uuid from "react-native-uuid";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const AddScreen = () => {
 	const [selectedCategory, setSelectedCategory] = React.useState("Income");
-	const [categories, setCategories] = React.useState({});
+	const [activeCategories, setActiveCategories] = React.useState({});
 	const [amount, setAmount] = React.useState("");
 	const [label, setLabel] = React.useState("");
 	const [pickerExpanded, setPickerExpanded] = React.useState(false);
@@ -33,9 +33,9 @@ const AddScreen = () => {
 			amountRef.current.focus();
 		}
 
-		getAllCategories()
+		getAllActiveCategories()
 			.then((categories) => {
-				setCategories(categories);
+				setActiveCategories(categories);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -61,7 +61,7 @@ const AddScreen = () => {
 		setAmount("");
 		setLabel("");
 		setSelectedCategory("Income");
-        setDate(new Date());
+		setDate(new Date());
 		amountRef.current.focus();
 	};
 
@@ -120,16 +120,19 @@ const AddScreen = () => {
 								setPickerExpanded(false);
 							}}
 						>
-							{Object.keys(categories).map((category, i) => {
-                                const categoryObj = categories[category];
-								return (
-									<Picker.Item
-										key={categoryObj.id}
-										label={`${category} ${categoryObj.emoji}`}
-										value={category}
-									/>
-								);
-							})}
+							{Object.keys(activeCategories).map(
+								(category, i) => {
+									const categoryObj =
+										activeCategories[category];
+									return (
+										<Picker.Item
+											key={categoryObj.id}
+											label={`${category} ${categoryObj.emoji}`}
+											value={category}
+										/>
+									);
+								}
+							)}
 						</Picker>
 					</View>
 				</TouchableWithoutFeedback>
