@@ -1,15 +1,17 @@
 import { StyleSheet, Text, SafeAreaView, ScrollView, View } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { baseStyles, colors } from "../styles/baseStyles";
 import CategoryRow from "../components/CategoryRow";
 import { totalSpentThisMonth } from "../logic/calculations";
 import { getAllActiveCategories, getAllCategories } from "../logic/categories";
 import { useFocusEffect } from "@react-navigation/native";
 import RoundedButton from "../components/RoundedButton";
-import { getTransactionsForMonth } from "../logic/transaction";
+import { getAllTransactions, getTransactionsForMonth } from "../logic/transaction";
 import TransactionRow from "../components/TransactionRow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TransactionsView from "../components/TransactionsView";
+import { calculateTotalSpent } from "../logic/newlogic";
+import TransactionContext from "../context/TransactionContext";
 
 const currentMonth = new Date().getMonth();
 const currentYear = new Date().getFullYear();
@@ -18,6 +20,8 @@ const ThisMonthScreen = ({ navigation, route }) => {
 	const [allCategories, setAllCategories] = useState({});
 	const [activeCategories, setActiveCategories] = useState({});
 	const [totalSpent, setTotalSpent] = useState(0);
+	const { allTransactions, setAllTransactions } =
+		useContext(TransactionContext);
 	const [transactions, setTransactions] = useState([]);
 	const [refresh, setRefresh] = useState(false);
 
@@ -27,6 +31,13 @@ const ThisMonthScreen = ({ navigation, route }) => {
 
 	useFocusEffect(
 		React.useCallback(() => {
+			getTransactionsForMonth(currentMonth, currentYear)
+				.then((transactions) => {
+					setTransactions(transactions);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 			totalSpentThisMonth()
 				.then((total) => {
 					setTotalSpent(total);
@@ -50,15 +61,7 @@ const ThisMonthScreen = ({ navigation, route }) => {
 				.catch((error) => {
 					console.log(error);
 				});
-
-			getTransactionsForMonth(currentMonth, currentYear)
-				.then((transactions) => {
-					setTransactions(transactions);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		}, [refresh])
+		}, [allTransactions])
 	);
 
 	return (
@@ -101,9 +104,13 @@ const ThisMonthScreen = ({ navigation, route }) => {
 						</View>
 					);
 				})}
-				<TransactionsView month={currentMonth} year={currentYear} onDelete={() => {
-					setRefresh(!refresh);
-				}}/>
+				<TransactionsView
+					month={currentMonth}
+					year={currentYear}
+					onDelete={() => {
+						setRefresh(!refresh);
+					}}
+				/>
 			</ScrollView>
 		</SafeAreaView>
 	);
