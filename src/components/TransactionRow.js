@@ -12,7 +12,7 @@ import { RectButton } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { deleteTransaction } from "../logic/transaction";
 
-const renderRightActions = (progress, dragX, id, rowRef) => {
+const renderRightActions = (progress, dragX, id, onDelete) => {
 	const trans = dragX.interpolate({
 		inputRange: [0, 50, 100, 101],
 		outputRange: [0, 0, 0, 1],
@@ -32,11 +32,7 @@ const renderRightActions = (progress, dragX, id, rowRef) => {
 						{
 							text: "Delete",
 							style: "destructive",
-							onPress: async () => {
-								await deleteTransaction(id);
-								rowRef.current.close();
-								console.log("Transaction deleted");
-							},
+							onPress: onDelete
 						},
 					]
 				);
@@ -58,12 +54,12 @@ const renderRightActions = (progress, dragX, id, rowRef) => {
 	);
 };
 
-const TransactionRow = ({ emoji, label, date, amount, id, category }) => {
+const TransactionRow = ({ emoji, label, date, amount, id, onDelete, category }) => {
 	const rowRef = React.useRef(null);
 	return (
 		<Swipeable
 			renderRightActions={(progress, dragX) => {
-				return renderRightActions(progress, dragX, id, rowRef);
+				return renderRightActions(progress, dragX, id, onDelete);
 			}}
 			rightThreshold={50}
 			ref={rowRef}

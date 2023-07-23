@@ -5,13 +5,14 @@ import { useFocusEffect } from "@react-navigation/native";
 import {
 	getTransactionsForMonth,
 	getTransactionsByCategoryByMonth,
+    deleteTransaction,
 } from "../logic/transaction";
 import { baseStyles } from "../styles/baseStyles";
 import { getAllCategories } from "../logic/categories";
 
-const TransactionsView = ({ month, year, category }) => {
+const TransactionsView = ({ month, year, category, onDelete }) => {
 	const [transactions, setTransactions] = useState([]);
-	// const [refresh, setRefresh] = useState(false);
+	const [refresh, setRefresh] = useState(false);
 	const [allCategories, setAllCategories] = useState({});
 
 	const getEmoji = (category) => {
@@ -44,7 +45,7 @@ const TransactionsView = ({ month, year, category }) => {
 						console.log(error);
 					});
 			}
-		}, [])
+		}, [refresh])
 	);
 
 	return (
@@ -61,6 +62,11 @@ const TransactionsView = ({ month, year, category }) => {
 							).toLocaleDateString()}
 							amount={transaction.amount}
 							id={transaction.id}
+                            onDelete = {async () => {
+                                await deleteTransaction(transaction.id);
+                                setRefresh(!refresh);
+                                onDelete();
+                            }}
 						/>
 					</View>
 				);

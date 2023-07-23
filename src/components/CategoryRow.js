@@ -5,7 +5,7 @@ import { totalEarnedThisMonth, totalSpentForCategory } from '../logic/calculatio
 import { useFocusEffect } from '@react-navigation/native'
 import { totalSpentForCategoryForMonth } from '../logic/history'
 
-const CategoryRow = ({ text, limit, emoji, onPress }) => {
+const CategoryRow = ({ text, limit, emoji, refresh, onPress }) => {
 
     if (text === "Income") {
         const [amount, setAmount] = React.useState(0);
@@ -15,7 +15,7 @@ const CategoryRow = ({ text, limit, emoji, onPress }) => {
             }).catch((error) => {
                 console.log(error);
             });
-        }, []));
+        }, [refresh]));
         return (
             <TouchableOpacity onPress={onPress}>
             <View style={{...styles.card, backgroundColor: colors.lightGreen}}>
@@ -43,7 +43,7 @@ const CategoryRow = ({ text, limit, emoji, onPress }) => {
         }).catch((error) => {
             console.log(error);
         });
-    }, []));
+    }, [refresh]));
 
   return (
     <TouchableOpacity onPress={onPress}>

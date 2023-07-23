@@ -19,6 +19,7 @@ const ThisMonthScreen = ({ navigation, route }) => {
 	const [activeCategories, setActiveCategories] = useState({});
 	const [totalSpent, setTotalSpent] = useState(0);
 	const [transactions, setTransactions] = useState([]);
+	const [refresh, setRefresh] = useState(false);
 
 	const getEmoji = (category) => {
 		return allCategories[category].emoji;
@@ -57,7 +58,7 @@ const ThisMonthScreen = ({ navigation, route }) => {
 				.catch((error) => {
 					console.log(error);
 				});
-		}, [transactions])
+		}, [refresh])
 	);
 
 	return (
@@ -100,7 +101,9 @@ const ThisMonthScreen = ({ navigation, route }) => {
 						</View>
 					);
 				})}
-				<TransactionsView month={currentMonth} year={currentYear} />
+				<TransactionsView month={currentMonth} year={currentYear} onDelete={() => {
+					setRefresh(!refresh);
+				}}/>
 			</ScrollView>
 		</SafeAreaView>
 	);
