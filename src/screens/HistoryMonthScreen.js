@@ -10,6 +10,7 @@ import {
 import HistoryCategoryRow from "../components/HistoryCategoryRow";
 import { getTransactionsForMonth } from "../logic/transaction";
 import TransactionRow from "../components/TransactionRow";
+import TransactionsView from "../components/TransactionsView";
 
 const HistoryMonthScreen = ({ navigation, route }) => {
 
@@ -78,24 +79,7 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 						</View>
 					);
 				})}
-				<Text style={{ ...styles.h1, marginTop: 10 }}>
-					Transactions
-				</Text>
-				{transactions.map((transaction, i) => {
-					return (
-						<View key={transaction.id}>
-							<TransactionRow
-								emoji={getEmoji(transaction.category)}
-								label={transaction.label}
-								date={new Date(
-									transaction.datetime
-								).toLocaleDateString()}
-								amount={transaction.amount}
-								id={transaction.id}
-							/>
-						</View>
-					);
-				})}
+				<TransactionsView month={route.params.month} year={route.params.year} />
 			</ScrollView>
 		</SafeAreaView>
 	);

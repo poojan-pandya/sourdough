@@ -22,6 +22,7 @@ import {
 } from "../logic/categories";
 import { getTransactionsByCategoryByMonth } from "../logic/transaction";
 import { totalSpentForCategoryForMonth } from "../logic/history";
+import TransactionsView from "../components/TransactionsView";
 
 const currentMonth = new Date().getMonth();
 const currentYear = new Date().getFullYear();
@@ -131,22 +132,12 @@ const CategoryScreen = ({ navigation, route }) => {
 						</Text>
 					</Text>
 
-					<Text style={styles.h1}>Transactions</Text>
-					{transactions.map((transaction) => {
-						return (
-							<View key={transaction.id}>
-								<TransactionRow
-									emoji={emoji}
-									label={transaction.label}
-									date={new Date(
-										transaction.datetime
-									).toLocaleDateString()}
-									amount={transaction.amount}
-									id={transaction.id}
-								/>
-							</View>
-						);
-					})}
+					<TransactionsView
+						category={category}
+						month={currentMonth}
+						year={currentYear}
+					/>
+
 					<RoundedButton
 						enabled={true}
 						title="Delete Category"

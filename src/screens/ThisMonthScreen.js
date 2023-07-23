@@ -9,6 +9,7 @@ import RoundedButton from "../components/RoundedButton";
 import { getTransactionsForMonth } from "../logic/transaction";
 import TransactionRow from "../components/TransactionRow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import TransactionsView from "../components/TransactionsView";
 
 const currentMonth = new Date().getMonth();
 const currentYear = new Date().getFullYear();
@@ -99,24 +100,7 @@ const ThisMonthScreen = ({ navigation, route }) => {
 						</View>
 					);
 				})}
-				<Text style={{ ...styles.h1, marginTop: 10 }}>
-					Transactions
-				</Text>
-				{transactions.map((transaction) => {
-					return (
-						<View key={transaction.id}>
-							<TransactionRow
-								emoji={getEmoji(transaction.category)}
-								label={transaction.label}
-								date={new Date(
-									transaction.datetime
-								).toLocaleDateString()}
-								amount={transaction.amount}
-								id={transaction.id}
-							/>
-						</View>
-					);
-				})}
+				<TransactionsView month={currentMonth} year={currentYear} />
 			</ScrollView>
 		</SafeAreaView>
 	);
