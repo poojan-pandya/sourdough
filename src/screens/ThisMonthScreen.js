@@ -7,7 +7,7 @@ import { getAllActiveCategories, getAllCategories } from "../logic/categories";
 import { useFocusEffect } from "@react-navigation/native";
 import RoundedButton from "../components/RoundedButton";
 import { getTransactionsForMonth } from "../logic/transaction";
-import TransactionRow from "../components/GraySquareWithEmoji";
+import TransactionRow from "../components/TransactionRow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const currentMonth = new Date().getMonth();
@@ -56,7 +56,7 @@ const ThisMonthScreen = ({ navigation, route }) => {
 				.catch((error) => {
 					console.log(error);
 				});
-		}, [])
+		}, [transactions])
 	);
 
 	return (

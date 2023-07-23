@@ -9,10 +9,12 @@ import {
 } from "../logic/categories";
 import HistoryCategoryRow from "../components/HistoryCategoryRow";
 import { getTransactionsForMonth } from "../logic/transaction";
-import TransactionRow from "../components/GraySquareWithEmoji";
+import TransactionRow from "../components/TransactionRow";
 
 const HistoryMonthScreen = ({ navigation, route }) => {
+
 	const [categories, setCategories] = useState({});
+	const [allCategories, setAllCategories] = useState({});
 	const [transactions, setTransactions] = useState([]);
 	const [totalSpent, setTotalSpent] = useState(0);
 
@@ -21,6 +23,13 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 			totalSpentForMonth(route.params.month, route.params.year)
 				.then((totalSpent) => {
 					setTotalSpent(totalSpent);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+			getAllCategories()
+				.then((res) => {
+					setAllCategories(res);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -34,6 +43,7 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 				});
 			getTransactionsForMonth(route.params.month, route.params.year)
 				.then((transactions) => {
+					console.log("Reloaded transactions");
 					setTransactions(transactions);
 				})
 				.catch((error) => {
@@ -41,6 +51,10 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 				});
 		}, [])
 	);
+
+	const getEmoji = (category) => {
+		return allCategories[category].emoji;
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -71,7 +85,7 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 					return (
 						<View key={transaction.id}>
 							<TransactionRow
-								emoji={categories[transaction.category].emoji}
+								emoji={getEmoji(transaction.category)}
 								label={transaction.label}
 								date={new Date(
 									transaction.datetime

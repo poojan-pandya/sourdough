@@ -17,7 +17,8 @@ export async function deleteTransaction(id) {
 			return transaction.id !== id;
 		}
 		);
-		AsyncStorage.setItem("transactions", JSON.stringify(transactions));
+		await AsyncStorage.setItem("transactions", JSON.stringify(transactions));
+		return transactions;
 	} catch {
 		console.log(`ERROR IN deleteTransaction(): ${error}`);
 	}
