@@ -1,11 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { baseStyles, colors, padding } from '../styles/baseStyles'
-import React from 'react'
+import React, { useContext } from 'react'
 import { totalEarnedThisMonth, totalSpentForCategory } from '../logic/calculations'
 import { useFocusEffect } from '@react-navigation/native'
 import { totalSpentForCategoryForMonth } from '../logic/history'
+import TransactionContext from '../context/TransactionContext'
 
-const CategoryRow = ({ text, limit, emoji, refresh, onPress }) => {
+const CategoryRow = ({ text, limit, emoji, onPress }) => {
+
+    const { allTransactions, setAllTransactions } = useContext(TransactionContext);
 
     if (text === "Income") {
         const [amount, setAmount] = React.useState(0);
@@ -15,7 +18,7 @@ const CategoryRow = ({ text, limit, emoji, refresh, onPress }) => {
             }).catch((error) => {
                 console.log(error);
             });
-        }, [refresh]));
+        }, [allTransactions]));
         return (
             <TouchableOpacity onPress={onPress}>
             <View style={{...styles.card, backgroundColor: colors.lightGreen}}>
@@ -43,7 +46,7 @@ const CategoryRow = ({ text, limit, emoji, refresh, onPress }) => {
         }).catch((error) => {
             console.log(error);
         });
-    }, [refresh]));
+    }, [allTransactions]));
 
   return (
     <TouchableOpacity onPress={onPress}>
