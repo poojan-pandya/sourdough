@@ -65,6 +65,7 @@ const TransactionsView = ({ month, year, category }) => {
 							).toLocaleDateString()}
 							amount={transaction.amount}
 							id={transaction.id}
+							category={transaction.category}
 							onDelete={async () => {
 								const newTransactions = await deleteTransaction(
 									transaction.id

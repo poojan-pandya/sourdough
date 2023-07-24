@@ -14,41 +14,44 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 
 const renderRightActions = (progress, dragX, id, onDelete) => {
 	return (
-		<View style={{width: 100}}>
-		<RectButton
-			style={styles.rightAction}
-			onPress={() => {
-				Alert.alert(
-					"Are you sure you want to delete this transaction?",
-					"This action cannot be undone.",
-					[
-						{
-							text: "Cancel",
-							style: "cancel",
-						},
-						{
-							text: "Delete",
-							style: "destructive",
-							onPress: onDelete,
-						},
-					]
-				);
-			}}
-		>
-			<Text
-				style={[
-					baseStyles.bold_p,
-					{ color: "white"},
-				]}
+		<View style={{ width: 100 }}>
+			<RectButton
+				style={styles.rightAction}
+				onPress={() => {
+					Alert.alert(
+						"Are you sure you want to delete this transaction?",
+						"This action cannot be undone.",
+						[
+							{
+								text: "Cancel",
+								style: "cancel",
+							},
+							{
+								text: "Delete",
+								style: "destructive",
+								onPress: onDelete,
+							},
+						]
+					);
+				}}
 			>
-				Delete
-			</Text>
-		</RectButton>
+				<Text style={[baseStyles.bold_p, { color: "white" }]}>
+					Delete
+				</Text>
+			</RectButton>
 		</View>
 	);
 };
 
-const TransactionRow = ({ emoji, label, date, amount, id, onDelete }) => {
+const TransactionRow = ({
+	emoji,
+	label,
+	date,
+	amount,
+	id,
+	category,
+	onDelete,
+}) => {
 	const rowRef = React.useRef(null);
 	return (
 		<Swipeable
@@ -60,9 +63,19 @@ const TransactionRow = ({ emoji, label, date, amount, id, onDelete }) => {
 			ref={rowRef}
 			useNativeAnimations={true}
 		>
-			<View style={styles.container}>
+			<View style={[styles.container]}>
 				<View style={styles.leftContainer}>
-					<View style={styles.graySquare}>
+					<View
+						style={[
+							styles.graySquare,
+							{
+								backgroundColor:
+									category === "Income"
+										? colors.lightGreen
+										: colors.lightGray,
+							},
+						]}
+					>
 						<Text style={styles.emoji}>{emoji}</Text>
 					</View>
 				</View>
@@ -70,8 +83,20 @@ const TransactionRow = ({ emoji, label, date, amount, id, onDelete }) => {
 					<Text style={styles.label}>{label}</Text>
 					<Text style={styles.date}>{date}</Text>
 				</View>
-				<View style={styles.rightContainer}>
-					<Text style={styles.amount}>${amount.toFixed(2)}</Text>
+				<View style={[styles.rightContainer]}>
+					<Text
+						style={[
+							styles.amount,
+							{
+								color:
+									category === "Income"
+										? colors.green
+										: colors.red,
+							},
+						]}
+					>
+						${amount.toFixed(2)}
+					</Text>
 				</View>
 			</View>
 		</Swipeable>
@@ -83,6 +108,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		marginVertical: 8,
+		borderRadius: 8,
 	},
 	leftContainer: {
 		marginRight: 16,
