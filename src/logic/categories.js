@@ -98,7 +98,7 @@ export async function addNewCategory(name, limit, emoji) {
     try {
         let categories = await getAllCategories();
         categories[name] = {
-            limit: limit,
+            limit: parseFloat(limit),
             emoji: emoji,
             id: uuid.v4(),
         };

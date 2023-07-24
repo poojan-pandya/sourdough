@@ -15,31 +15,33 @@ import { chooseRandomEmoji } from "../logic/emojis";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const NewCategoryScreen = ({ navigation, route }) => {
-	const [budget, setBudget] = React.useState(0);
-	const [emoji, setEmoji] = React.useState("🌮");
+	const [budget, setBudget] = React.useState("");
+	const [emoji, setEmoji] = React.useState(chooseRandomEmoji());
 	const [category, setCategory] = React.useState("");
 
 	const handleLabelChange = (text) => {
-		const isValid = (/^[a-zA-Z]*$/.test(text) && text.length <= 15);
+		const isValid = /^[a-zA-Z]*$/.test(text) && text.length <= 15;
 		if (isValid) {
 			setCategory(text);
 		}
-	}
+	};
 
 	const handleAmountChange = (text) => {
 		const filteredText = text.replace(/[^0-9.]/g, "");
 		const isValid =
-			(/^\d+(\.\d{0,2})?$/.test(filteredText) || filteredText === "");
+			(/^\d+(\.\d{0,2})?$/.test(filteredText) &&
+				parseFloat(filteredText) < 100000) ||
+			filteredText === "";
 		if (isValid) {
-			setBudget(parseFloat(filteredText));
+			setBudget(filteredText);
 		}
 	};
 
 	const handleEmojiChange = (text) => {
 		const emojiRegex = /\p{Emoji}/u;
-        if ((text === "") || (!emoji && emojiRegex.test(text))){
-            setEmoji(text);
-        }
+		if (text === "" || (!emoji && emojiRegex.test(text))) {
+			setEmoji(text);
+		}
 	};
 
 	const handleEmojiBlur = () => {
@@ -55,6 +57,7 @@ const NewCategoryScreen = ({ navigation, route }) => {
 				<View style={styles.budgetInputContainer}>
 					<Text style={styles.budgetInput}>$</Text>
 					<TextInput
+						contextMenuHidden={true}
 						style={styles.budgetInput}
 						keyboardType="numeric"
 						onChangeText={handleAmountChange}
@@ -66,6 +69,7 @@ const NewCategoryScreen = ({ navigation, route }) => {
 				<Text style={styles.h1}>per month for</Text>
 				<View style={styles.labelInputContainer}>
 					<TextInput
+						contextMenuHidden={true}
 						style={styles.h1}
 						placeholder="Groceries"
 						onChangeText={handleLabelChange}
@@ -74,7 +78,7 @@ const NewCategoryScreen = ({ navigation, route }) => {
 					{/* Empty space */}
 					<Text style={styles.h1}> </Text>
 					<TextInput
-                        contextMenuHidden={true}
+						contextMenuHidden={true}
 						style={styles.h1}
 						onChangeText={handleEmojiChange}
 						onBlur={handleEmojiBlur}
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		marginBottom: 20,
-		width: "85%"
+		width: "85%",
 	},
 
 	saveButton: {

@@ -48,10 +48,19 @@ const AddScreen = () => {
 		};
 	}, [amountFocused]);
 
-	const handleInputChange = (text) => {
+	const handleLabelChange = (text) => {
+		const isValid = /^[a-zA-Z]*$/.test(text) && text.length <= 15;
+		if (isValid) {
+			setLabel(text);
+		}
+	};
+
+	const handleAmountChange = (text) => {
 		const filteredText = text.replace(/[^0-9.]/g, "");
 		const isValid =
-			/^\d+(\.\d{0,2})?$/.test(filteredText) || filteredText === "";
+			(/^\d+(\.\d{0,2})?$/.test(filteredText) &&
+				parseFloat(filteredText) < 100000) ||
+			filteredText === "";
 		if (isValid) {
 			setAmount(filteredText);
 		}
@@ -83,19 +92,19 @@ const AddScreen = () => {
 					</Text>
 					<TextInput
 						ref={amountRef}
-						style={{ ...baseStyles.h1, color: colors.blue }}
+						style={{ ...baseStyles.h1, color: colors.blue, }}
 						keyboardType="numeric"
-						onChangeText={handleInputChange}
+						onChangeText={handleAmountChange}
 						value={amount}
 						placeholder="0.00"
 					/>
 				</View>
 
-				<View style={{ flexDirection: "row", alignItems: "center" }}>
+				<View style={{ flexDirection: "row", alignItems: "center", width: "80%" }}>
 					<Text style={styles.h1}>For </Text>
 					<TextInput
-						style={{ ...baseStyles.h1, color: colors.blue }}
-						onChangeText={(text) => setLabel(text)}
+						style={{ ...baseStyles.h1, color: colors.blue, }}
+						onChangeText={handleLabelChange}
 						value={label}
 						placeholder="bread"
 					/>
@@ -152,7 +161,6 @@ const AddScreen = () => {
 						display="default"
 						maximumDate={new Date()}
 						onChange={(event, selectedDate) => {
-							const todaysDate = new Date();
 							const currentDate = selectedDate || date;
 							setDate(currentDate);
 						}}

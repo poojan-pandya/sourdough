@@ -13,7 +13,6 @@ import {
 import TransactionRow from "../components/TransactionRow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TransactionsView from "../components/TransactionsView";
-import { calculateTotalSpent } from "../logic/newlogic";
 import TransactionContext from "../context/TransactionContext";
 
 const currentMonth = new Date().getMonth();
