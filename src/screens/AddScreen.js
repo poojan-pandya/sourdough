@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import RoundedButton from "../components/RoundedButton";
 import React from "react";
-import { useIsFocused } from "@react-navigation/native";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { baseStyles, colors } from "../styles/baseStyles";
 import { Picker } from "@react-native-picker/picker";
 import { addNewTransaction } from "../logic/transaction";
@@ -27,26 +27,21 @@ const AddScreen = () => {
 	const amountRef = React.useRef(null);
 	const amountFocused = useIsFocused();
 
-	React.useEffect(() => {
-		// This is a hack to ensure the numeric keyboard comes up every time we navigate to this screen
-		if (amountFocused) {
+	useFocusEffect(
+		React.useCallback(() => {
 			amountRef.current.focus();
-		}
-
-		getAllActiveCategories()
-			.then((categories) => {
-				setActiveCategories(categories);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-
-		return () => {
-			// Cleanup function to unfocus the TextInput when navigating away
-			cleanup();
-			amountRef.current.blur();
-		};
-	}, [amountFocused]);
+			getAllActiveCategories()
+				.then((categories) => {
+					setActiveCategories(categories);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+			return () => {
+				cleanup();
+			};
+		}, [])
+	);
 
 	const handleLabelChange = (text) => {
 		const isValid = /^[a-zA-Z ]*$/.test(text) && text.length <= 15;
@@ -92,7 +87,7 @@ const AddScreen = () => {
 					</Text>
 					<TextInput
 						ref={amountRef}
-						style={{ ...baseStyles.h1, color: colors.blue, }}
+						style={{ ...baseStyles.h1, color: colors.blue }}
 						keyboardType="numeric"
 						onChangeText={handleAmountChange}
 						value={amount}
@@ -100,10 +95,16 @@ const AddScreen = () => {
 					/>
 				</View>
 
-				<View style={{ flexDirection: "row", alignItems: "center", width: "80%" }}>
+				<View
+					style={{
+						flexDirection: "row",
+						alignItems: "center",
+						width: "80%",
+					}}
+				>
 					<Text style={styles.h1}>For </Text>
 					<TextInput
-						style={{ ...baseStyles.h1, color: colors.blue, }}
+						style={{ ...baseStyles.h1, color: colors.blue }}
 						onChangeText={handleLabelChange}
 						value={label}
 						placeholder="bread"
