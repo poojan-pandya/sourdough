@@ -1,5 +1,5 @@
 import { StyleSheet, Text, SafeAreaView, View, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { baseStyles } from "../styles/baseStyles";
 import { monthYearToString, totalSpentForMonth } from "../logic/history";
 import { useFocusEffect } from "@react-navigation/native";
@@ -11,6 +11,7 @@ import HistoryCategoryRow from "../components/HistoryCategoryRow";
 import { getTransactionsForMonth } from "../logic/transaction";
 import TransactionRow from "../components/TransactionRow";
 import TransactionsView from "../components/TransactionsView";
+import TransactionContext from "../context/TransactionContext";
 
 const HistoryMonthScreen = ({ navigation, route }) => {
 
@@ -18,6 +19,7 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 	const [allCategories, setAllCategories] = useState({});
 	const [transactions, setTransactions] = useState([]);
 	const [totalSpent, setTotalSpent] = useState(0);
+	const { allTransactions, setAllTransactions } = useContext(TransactionContext);
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -50,7 +52,7 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 				.catch((error) => {
 					console.log(error);
 				});
-		}, [])
+		}, [allTransactions])
 	);
 
 	const getEmoji = (category) => {
