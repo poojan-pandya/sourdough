@@ -6,7 +6,10 @@ import { totalSpentThisMonth } from "../logic/calculations";
 import { getAllActiveCategories, getAllCategories } from "../logic/categories";
 import { useFocusEffect } from "@react-navigation/native";
 import RoundedButton from "../components/RoundedButton";
-import { getAllTransactions, getTransactionsForMonth } from "../logic/transaction";
+import {
+	getAllTransactions,
+	getTransactionsForMonth,
+} from "../logic/transaction";
 import TransactionRow from "../components/TransactionRow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TransactionsView from "../components/TransactionsView";
@@ -36,7 +39,7 @@ const ThisMonthScreen = ({ navigation, route }) => {
 					setAllTransactions(res);
 				})
 				.catch((error) => {
-					console.log('hello', error);
+					console.log("hello", error);
 				});
 			getTransactionsForMonth(currentMonth, currentYear)
 				.then((transactions) => {
@@ -68,7 +71,7 @@ const ThisMonthScreen = ({ navigation, route }) => {
 				.catch((error) => {
 					console.log(error);
 				});
-		}, [allTransactions])
+		}, [allTransactions.length])
 	);
 
 	return (

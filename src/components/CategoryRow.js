@@ -18,7 +18,7 @@ const CategoryRow = ({ text, limit, emoji, onPress }) => {
             }).catch((error) => {
                 console.log(error);
             });
-        }, [allTransactions]));
+        }, [allTransactions.length]));
         return (
             <TouchableOpacity onPress={onPress}>
             <View style={{...styles.card, backgroundColor: colors.lightGreen}}>
@@ -46,7 +46,7 @@ const CategoryRow = ({ text, limit, emoji, onPress }) => {
         }).catch((error) => {
             console.log(error);
         });
-    }, [allTransactions]));
+    }, [allTransactions.length]));
 
   return (
     <TouchableOpacity onPress={onPress}>

@@ -34,7 +34,8 @@ const CategoryScreen = ({ navigation, route }) => {
 	const [emoji, setEmoji] = React.useState("🌮");
 	const [transactions, setTransactions] = React.useState([]);
 	const [total, setTotal] = React.useState(0);
-	const { allTransactions, setAllTransactions } = useContext(TransactionContext);
+	const { allTransactions, setAllTransactions } =
+		useContext(TransactionContext);
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -66,7 +67,7 @@ const CategoryScreen = ({ navigation, route }) => {
 				.catch((error) => {
 					console.log(error);
 				});
-		}, [allTransactions])
+		}, [allTransactions.length])
 	);
 
 	const handleInputChange = (text) => {

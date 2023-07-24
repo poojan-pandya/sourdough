@@ -48,7 +48,7 @@ const TransactionsView = ({ month, year, category }) => {
 						console.log(error);
 					});
 			}
-		}, [allTransactions])
+		}, [allTransactions.length])
 	);
 
 	return (
@@ -66,7 +66,9 @@ const TransactionsView = ({ month, year, category }) => {
 							amount={transaction.amount}
 							id={transaction.id}
 							onDelete={async () => {
-								const newTransactions = await deleteTransaction(transaction.id);
+								const newTransactions = await deleteTransaction(
+									transaction.id
+								);
 								// This should trigger a re-render
 								setAllTransactions(newTransactions);
 							}}

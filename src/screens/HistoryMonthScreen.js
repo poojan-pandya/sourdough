@@ -14,12 +14,12 @@ import TransactionsView from "../components/TransactionsView";
 import TransactionContext from "../context/TransactionContext";
 
 const HistoryMonthScreen = ({ navigation, route }) => {
-
 	const [categories, setCategories] = useState({});
 	const [allCategories, setAllCategories] = useState({});
 	const [transactions, setTransactions] = useState([]);
 	const [totalSpent, setTotalSpent] = useState(0);
-	const { allTransactions, setAllTransactions } = useContext(TransactionContext);
+	const { allTransactions, setAllTransactions } =
+		useContext(TransactionContext);
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -52,7 +52,7 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 				.catch((error) => {
 					console.log(error);
 				});
-		}, [allTransactions])
+		}, [allTransactions.length])
 	);
 
 	const getEmoji = (category) => {
@@ -81,7 +81,10 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 						</View>
 					);
 				})}
-				<TransactionsView month={route.params.month} year={route.params.year} />
+				<TransactionsView
+					month={route.params.month}
+					year={route.params.year}
+				/>
 			</ScrollView>
 		</SafeAreaView>
 	);
