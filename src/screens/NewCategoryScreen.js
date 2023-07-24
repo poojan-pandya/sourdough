@@ -19,10 +19,17 @@ const NewCategoryScreen = ({ navigation, route }) => {
 	const [emoji, setEmoji] = React.useState("🌮");
 	const [category, setCategory] = React.useState("");
 
-	const handleInputChange = (text) => {
+	const handleLabelChange = (text) => {
+		const isValid = (/^[a-zA-Z]*$/.test(text) && text.length <= 15);
+		if (isValid) {
+			setCategory(text);
+		}
+	}
+
+	const handleAmountChange = (text) => {
 		const filteredText = text.replace(/[^0-9.]/g, "");
 		const isValid =
-			/^\d+(\.\d{0,2})?$/.test(filteredText) || filteredText === "";
+			(/^\d+(\.\d{0,2})?$/.test(filteredText) || filteredText === "");
 		if (isValid) {
 			setBudget(parseFloat(filteredText));
 		}
@@ -50,7 +57,7 @@ const NewCategoryScreen = ({ navigation, route }) => {
 					<TextInput
 						style={styles.budgetInput}
 						keyboardType="numeric"
-						onChangeText={handleInputChange}
+						onChangeText={handleAmountChange}
 						value={budget ? budget.toString() : ""}
 						placeholder="0.00"
 					/>
@@ -61,7 +68,7 @@ const NewCategoryScreen = ({ navigation, route }) => {
 					<TextInput
 						style={styles.h1}
 						placeholder="Groceries"
-						onChangeText={setCategory}
+						onChangeText={handleLabelChange}
 						value={category}
 					/>
 					{/* Empty space */}
@@ -112,6 +119,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		marginBottom: 20,
+		width: "85%"
 	},
 
 	saveButton: {
