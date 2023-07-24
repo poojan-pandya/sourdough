@@ -5,7 +5,7 @@ import { colors } from '../styles/baseStyles';
 const ProgressBar = ({ progress }) => {
   return (
     <View style={styles.progressBar}>
-      <View style={[styles.progressFill, { width: `${progress}%` }]} />
+      <View style={[styles.progressFill, { width: `${progress}%`, backgroundColor: progress >= 100 ? colors.red : colors.blue }]} />
     </View>
   );
 };

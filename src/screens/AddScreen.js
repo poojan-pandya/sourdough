@@ -49,7 +49,7 @@ const AddScreen = () => {
 	}, [amountFocused]);
 
 	const handleLabelChange = (text) => {
-		const isValid = /^[a-zA-Z]*$/.test(text) && text.length <= 15;
+		const isValid = /^[a-zA-Z ]*$/.test(text) && text.length <= 15;
 		if (isValid) {
 			setLabel(text);
 		}

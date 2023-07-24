@@ -20,7 +20,7 @@ const NewCategoryScreen = ({ navigation, route }) => {
 	const [category, setCategory] = React.useState("");
 
 	const handleLabelChange = (text) => {
-		const isValid = /^[a-zA-Z]*$/.test(text) && text.length <= 15;
+		const isValid = /^[a-zA-Z ]*$/.test(text) && text.length <= 15;
 		if (isValid) {
 			setCategory(text);
 		}
