@@ -9,7 +9,7 @@ import {
 	ScrollView,
 	Alert,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { baseStyles, colors } from "../styles/baseStyles";
 import ProgressBar from "../components/ProgressBar";
 import TransactionRow from "../components/TransactionRow";
@@ -23,6 +23,7 @@ import {
 import { getTransactionsByCategoryByMonth } from "../logic/transaction";
 import { totalSpentForCategoryForMonth } from "../logic/history";
 import TransactionsView from "../components/TransactionsView";
+import TransactionContext from "../context/TransactionContext";
 
 const currentMonth = new Date().getMonth();
 const currentYear = new Date().getFullYear();
@@ -33,6 +34,7 @@ const CategoryScreen = ({ navigation, route }) => {
 	const [emoji, setEmoji] = React.useState("🌮");
 	const [transactions, setTransactions] = React.useState([]);
 	const [total, setTotal] = React.useState(0);
+	const { allTransactions, setAllTransactions } = useContext(TransactionContext);
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -64,7 +66,7 @@ const CategoryScreen = ({ navigation, route }) => {
 				.catch((error) => {
 					console.log(error);
 				});
-		}, [])
+		}, [allTransactions])
 	);
 
 	const handleInputChange = (text) => {
