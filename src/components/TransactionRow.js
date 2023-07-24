@@ -11,7 +11,6 @@ import {
 import { baseStyles, colors } from "../styles/baseStyles";
 import { RectButton } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-import { deleteTransaction } from "../logic/transaction";
 
 const renderRightActions = (progress, dragX, id, onDelete) => {
 	return (
@@ -20,8 +19,8 @@ const renderRightActions = (progress, dragX, id, onDelete) => {
 			style={styles.rightAction}
 			onPress={() => {
 				Alert.alert(
-					"Are you sure you want to delete this category?",
-					"You can no longer add new transactions to this category. Your existing transactions will remain unaffected.",
+					"Are you sure you want to delete this transaction?",
+					"This action cannot be undone.",
 					[
 						{
 							text: "Cancel",
