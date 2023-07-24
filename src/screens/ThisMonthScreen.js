@@ -31,6 +31,13 @@ const ThisMonthScreen = ({ navigation, route }) => {
 
 	useFocusEffect(
 		React.useCallback(() => {
+			getAllTransactions()
+				.then((res) => {
+					setAllTransactions(res);
+				})
+				.catch((error) => {
+					console.log('hello', error);
+				});
 			getTransactionsForMonth(currentMonth, currentYear)
 				.then((transactions) => {
 					setTransactions(transactions);

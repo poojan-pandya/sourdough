@@ -4,8 +4,8 @@ import {
 	Text,
 	StyleSheet,
 	TouchableWithoutFeedback,
-	Animated,
 	Alert,
+	Animated
 } from "react-native";
 import { baseStyles, colors } from "../styles/baseStyles";
 import { RectButton } from "react-native-gesture-handler";
@@ -15,8 +15,8 @@ import { deleteTransaction } from "../logic/transaction";
 const renderRightActions = (progress, dragX, id, onDelete) => {
 	const trans = dragX.interpolate({
 		inputRange: [0, 50, 100, 101],
-		outputRange: [0, 0, 0, 1],
-	});
+		outputRange: [0, 0, 0, 0],
+	}, {useNativeDriver: true});
 	return (
 		<RectButton
 			style={styles.rightAction}
@@ -47,6 +47,7 @@ const renderRightActions = (progress, dragX, id, onDelete) => {
 						paddingRight: 10,
 					},
 				]}
+				
 			>
 				Delete
 			</Animated.Text>
@@ -54,7 +55,7 @@ const renderRightActions = (progress, dragX, id, onDelete) => {
 	);
 };
 
-const TransactionRow = ({ emoji, label, date, amount, id, onDelete, category }) => {
+const TransactionRow = ({ emoji, label, date, amount, id, onDelete }) => {
 	const rowRef = React.useRef(null);
 	return (
 		<Swipeable

@@ -13,10 +13,10 @@ import { getAllTransactions } from "./src/logic/transaction";
 const Tab = createBottomTabNavigator();
 
 function App() {
-	const [transactions, setTransactions] = useState([]);
+	const [allTransactions, setAllTransactions] = useState([]);
 
 	return (
-		<TransactionContext.Provider value={{ transactions, setTransactions }}>
+		<TransactionContext.Provider value={{allTransactions, setAllTransactions}}>
 			<NavigationContainer>
 				<Tab.Navigator
 					screenOptions={({ route }) => ({

@@ -1,3 +1,8 @@
 import { createContext } from "react";
 
-export default TransactionContext = createContext({});
+const TransactionContext = createContext({
+    transactions: [],
+    setTransactions: () => {},
+});
+
+export default TransactionContext;
