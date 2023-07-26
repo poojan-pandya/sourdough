@@ -33,7 +33,12 @@ const TransactionsView = ({ month, year, category }) => {
 			if (category) {
 				getTransactionsByCategoryByMonth(category, month, year)
 					.then((res) => {
-						setTransactions(res.sort());
+						setTransactions(
+							res.sort(
+								(a, b) =>
+									new Date(b.datetime) - new Date(a.datetime)
+							)
+						);
 					})
 					.catch((error) => {
 						console.log(error);
@@ -42,7 +47,12 @@ const TransactionsView = ({ month, year, category }) => {
 			} else {
 				getTransactionsForMonth(month, year)
 					.then((res) => {
-						setTransactions(res.sort());
+						setTransactions(
+							res.sort(
+								(a, b) =>
+									new Date(b.datetime) - new Date(a.datetime)
+							)
+						);
 					})
 					.catch((error) => {
 						console.log(error);

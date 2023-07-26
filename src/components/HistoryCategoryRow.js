@@ -1,10 +1,6 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { baseStyles, colors, padding } from "../styles/baseStyles";
 import React, { useContext } from "react";
-import {
-	totalEarnedThisMonth,
-	totalSpentForCategory,
-} from "../logic/calculations";
 import { useFocusEffect } from "@react-navigation/native";
 import {
 	totalEarnedForMonth,

@@ -1,18 +1,10 @@
 import React from "react";
-import {
-	View,
-	Text,
-	StyleSheet,
-	TouchableWithoutFeedback,
-	Alert,
-	Animated,
-	Button,
-} from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import { baseStyles, colors } from "../styles/baseStyles";
 import { RectButton } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
-const renderRightActions = (progress, dragX, id, onDelete) => {
+const renderRightActions = (progress, dragX, onDelete) => {
 	return (
 		<View style={{ width: 100 }}>
 			<RectButton
@@ -56,7 +48,7 @@ const TransactionRow = ({
 	return (
 		<Swipeable
 			renderRightActions={(progress, dragX) => {
-				return renderRightActions(progress, dragX, id, onDelete);
+				return renderRightActions(progress, dragX, onDelete);
 			}}
 			rightThreshold={50}
 			overshootRight={false}
@@ -95,7 +87,7 @@ const TransactionRow = ({
 							},
 						]}
 					>
-						${amount.toFixed(2)}
+						{category === "Income" ? "+" : "–"} ${amount.toFixed(2)}
 					</Text>
 				</View>
 			</View>

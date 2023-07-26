@@ -4,10 +4,10 @@
     "slug": "Sourdough",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/sourdough-app-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/sourdough-splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.poojanpandya.Sourdough"
     },
     "android": {
       "adaptiveIcon": {
