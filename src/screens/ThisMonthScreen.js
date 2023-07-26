@@ -74,6 +74,7 @@ const ThisMonthScreen = ({ navigation, route }) => {
 	);
 
 	return (
+		
 		<SafeAreaView style={styles.container}>
 			<Text style={styles.h1}>This Month</Text>
 			<Text style={styles.h2}>

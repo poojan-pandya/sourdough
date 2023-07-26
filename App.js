@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Text, TextInput } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AddScreenStack from "./src/screens/AddScreenStack";
@@ -14,9 +15,16 @@ const Tab = createBottomTabNavigator();
 
 function App() {
 	const [allTransactions, setAllTransactions] = useState([]);
-
+	
+    Text.defaultProps = Text.defaultProps || {};
+	Text.defaultProps.allowFontScaling = false;
+	TextInput.defaultProps = TextInput.defaultProps || {};
+	TextInput.defaultProps.allowFontScaling = false;
+    
 	return (
-		<TransactionContext.Provider value={{allTransactions, setAllTransactions}}>
+		<TransactionContext.Provider
+			value={{ allTransactions, setAllTransactions }}
+		>
 			<NavigationContainer>
 				<Tab.Navigator
 					screenOptions={({ route }) => ({
