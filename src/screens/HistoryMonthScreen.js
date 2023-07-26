@@ -9,7 +9,6 @@ import {
 } from "../logic/categories";
 import HistoryCategoryRow from "../components/HistoryCategoryRow";
 import { getTransactionsForMonth } from "../logic/transaction";
-import TransactionRow from "../components/TransactionRow";
 import TransactionsView from "../components/TransactionsView";
 import TransactionContext from "../context/TransactionContext";
 
@@ -46,7 +45,6 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 				});
 			getTransactionsForMonth(route.params.month, route.params.year)
 				.then((transactions) => {
-					console.log("Reloaded transactions");
 					setTransactions(transactions);
 				})
 				.catch((error) => {
