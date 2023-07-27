@@ -1,26 +1,26 @@
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
 import { baseStyles } from "../styles/baseStyles";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getAllMonths, monthYearSplit } from "../logic/history";
 import HistoryRow from "../components/HistoryRow";
 import { useFocusEffect } from "@react-navigation/native";
 
 const monthYearSort = (a, b) => {
-    const aObj = monthYearSplit(a);
-    const bObj = monthYearSplit(b);
-    if (aObj.year > bObj.year) {
-        return -1;
-    } else if (aObj.year < bObj.year) {
-        return 1;
-    } else {
-        if (aObj.month > bObj.month) {
-            return -1;
-        } else if (aObj.month < bObj.month) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
+	const aObj = monthYearSplit(a);
+	const bObj = monthYearSplit(b);
+	if (aObj.year > bObj.year) {
+		return -1;
+	} else if (aObj.year < bObj.year) {
+		return 1;
+	} else {
+		if (aObj.month > bObj.month) {
+			return -1;
+		} else if (aObj.month < bObj.month) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 };
 
 const HistoryScreen = ({ navigation }) => {
@@ -30,7 +30,7 @@ const HistoryScreen = ({ navigation }) => {
 		React.useCallback(() => {
 			getAllMonths()
 				.then((months) => {
-                    months.sort(monthYearSort);
+					months.sort(monthYearSort);
 					setAllMonths(months);
 				})
 				.catch((error) => {

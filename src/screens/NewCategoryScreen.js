@@ -12,7 +12,6 @@ import { baseStyles, colors } from "../styles/baseStyles";
 import React from "react";
 import { addNewCategory, isDuplicateCategory } from "../logic/categories";
 import { chooseRandomEmoji } from "../logic/emojis";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const NewCategoryScreen = ({ navigation, route }) => {
 	const [budget, setBudget] = React.useState("");

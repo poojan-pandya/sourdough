@@ -12,7 +12,6 @@ import {
 import React, { useContext } from "react";
 import { baseStyles, colors } from "../styles/baseStyles";
 import ProgressBar from "../components/ProgressBar";
-import TransactionRow from "../components/TransactionRow";
 import { useFocusEffect } from "@react-navigation/native";
 import RoundedButton from "../components/RoundedButton";
 import {

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, SafeAreaView, ScrollView, View } from "react-native";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { baseStyles, colors } from "../styles/baseStyles";
 import CategoryRow from "../components/CategoryRow";
 import { totalSpentThisMonth } from "../logic/calculations";
@@ -10,8 +10,6 @@ import {
 	getAllTransactions,
 	getTransactionsForMonth,
 } from "../logic/transaction";
-import TransactionRow from "../components/TransactionRow";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import TransactionsView from "../components/TransactionsView";
 import TransactionContext from "../context/TransactionContext";
 
@@ -74,7 +72,6 @@ const ThisMonthScreen = ({ navigation, route }) => {
 	);
 
 	return (
-		
 		<SafeAreaView style={styles.container}>
 			<Text style={styles.h1}>This Month</Text>
 			<Text style={styles.h2}>

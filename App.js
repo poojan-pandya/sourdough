@@ -8,19 +8,18 @@ import HistoryScreenStack from "./src/screens/HistoryScreenStack";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors } from "./src/styles/baseStyles";
 import TransactionContext from "./src/context/TransactionContext";
-import { createContext, useContext, useState, useEffect } from "react";
-import { getAllTransactions } from "./src/logic/transaction";
+import { useState } from "react";
 
 const Tab = createBottomTabNavigator();
 
 function App() {
 	const [allTransactions, setAllTransactions] = useState([]);
-	
-    Text.defaultProps = Text.defaultProps || {};
+
+	Text.defaultProps = Text.defaultProps || {};
 	Text.defaultProps.allowFontScaling = false;
 	TextInput.defaultProps = TextInput.defaultProps || {};
 	TextInput.defaultProps.allowFontScaling = false;
-    
+
 	return (
 		<TransactionContext.Provider
 			value={{ allTransactions, setAllTransactions }}
