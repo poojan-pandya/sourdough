@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ThisMonthScreen from "./ThisMonthScreen";
 import CategoryScreen from "./CategoryScreen";
 import { colors } from "../styles/baseStyles";
+import IncomeScreen from "./IncomeScreen";
 import NewCategoryScreen from "./NewCategoryScreen";
 
 const Stack = createNativeStackNavigator();
@@ -32,6 +33,11 @@ const ThisMonthScreenStack = () => {
 			<Stack.Screen
 				name="New Category Screen"
 				component={NewCategoryScreen}
+				options={headerOptions}
+			/>
+			<Stack.Screen
+				name="Income Screen"
+				component={IncomeScreen}
 				options={headerOptions}
 			/>
 		</Stack.Navigator>

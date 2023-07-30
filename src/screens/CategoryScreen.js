@@ -138,6 +138,7 @@ const CategoryScreen = ({ navigation, route }) => {
 						category={category}
 						month={currentMonth}
 						year={currentYear}
+						navigation={navigation}
 					/>
 
 					<RoundedButton

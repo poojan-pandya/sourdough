@@ -82,6 +82,7 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 				<TransactionsView
 					month={route.params.month}
 					year={route.params.year}
+					navigation={navigation}
 				/>
 			</ScrollView>
 		</SafeAreaView>

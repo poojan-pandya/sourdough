@@ -24,36 +24,41 @@ const CategoryRow = ({ text, limit, emoji, onPress }) => {
 			}, [allTransactions.length])
 		);
 		return (
-			<View
-				style={{ ...styles.card, backgroundColor: colors.lightGreen }}
-			>
+			<TouchableOpacity onPress={onPress}>
 				<View
 					style={{
-						flexDirection: "row",
-						justifyContent: "space-between",
+						...styles.card,
+						backgroundColor: colors.lightGreen,
 					}}
 				>
 					<View
 						style={{
-							flex: 1,
-							flexDirection: "column",
+							flexDirection: "row",
 							justifyContent: "space-between",
-							height: 60,
 						}}
 					>
-						<Text style={styles.bold_p}>{text}</Text>
-						<Text style={{ ...styles.bold_p }}>${amount}</Text>
-					</View>
-					<View
-						style={{
-							flexDirection: "col",
-							justifyContent: "center",
-						}}
-					>
-						<Text style={styles.h1}>{emoji}</Text>
+						<View
+							style={{
+								flex: 1,
+								flexDirection: "column",
+								justifyContent: "space-between",
+								height: 60,
+							}}
+						>
+							<Text style={styles.bold_p}>{text}</Text>
+							<Text style={{ ...styles.bold_p }}>${amount}</Text>
+						</View>
+						<View
+							style={{
+								flexDirection: "col",
+								justifyContent: "center",
+							}}
+						>
+							<Text style={styles.h1}>{emoji}</Text>
+						</View>
 					</View>
 				</View>
-			</View>
+			</TouchableOpacity>
 		);
 	}
 

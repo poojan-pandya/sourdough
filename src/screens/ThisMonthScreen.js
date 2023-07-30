@@ -105,7 +105,11 @@ const ThisMonthScreen = ({ navigation, route }) => {
 													{ category: category }
 												);
 										  }
-										: () => {}
+										: () => {
+												navigation.navigate(
+													"Income Screen"
+												);
+										  }
 								}
 							/>
 						</View>
@@ -114,6 +118,7 @@ const ThisMonthScreen = ({ navigation, route }) => {
 				<TransactionsView
 					month={currentMonth}
 					year={currentYear}
+					navigation={navigation}
 					onDelete={() => {
 						setRefresh(!refresh);
 					}}
