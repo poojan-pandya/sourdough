@@ -72,7 +72,7 @@ export async function getAllCategoriesForMonth(month, year) {
     }
 }
 
-export async function isDuplicateCategory(name, emoji) {
+export async function isDuplicateCategory(name) {
     try {
         let categories = await AsyncStorage.getItem('categories');
         if (!categories) {
@@ -80,8 +80,19 @@ export async function isDuplicateCategory(name, emoji) {
         } else {
             categories = JSON.parse(categories);
         }
-        if (categories.hasOwnProperty(name)) {
-            return true;
+        return categories.hasOwnProperty(name);
+    } catch (error) {
+        console.log(`ERROR IN isDuplicateCategory(): ${error}`);
+    }
+}
+
+export async function isDuplicateEmoji(emoji) {
+    try {
+        let categories = await AsyncStorage.getItem('categories');
+        if (!categories) {
+            categories = {};
+        } else {
+            categories = JSON.parse(categories);
         }
         for (const key in categories) {
             if (categories[key].emoji === emoji) {
@@ -90,7 +101,7 @@ export async function isDuplicateCategory(name, emoji) {
         }
         return false;
     } catch (error) {
-        console.log(`ERROR IN isDuplicateCategory(): ${error}`);
+        console.log(`ERROR IN isDuplicateEmoji(): ${error}`);
     }
 }
 
@@ -118,7 +129,7 @@ export async function getCategoryInfo(category) {
         }
         return categories[category];
     } catch (error) {
-        console.log(`ERROR IN getLimitForCategory(): ${error}`);
+        console.log(`ERROR IN getCategoryInfo(): ${error}`);
     }
 }
 
@@ -134,5 +145,14 @@ export async function setCategoryLimit(category, limit) {
         AsyncStorage.setItem('categories', JSON.stringify(categories));
     } catch (error) {
         console.log(`ERROR IN setCategoryLimit(): ${error}`);
+    }
+}
+
+export async function isActive(category) {
+    try {
+        let categories = await getAllCategories();
+        return categories.hasOwnProperty(category) && !categories[category].deleted;
+    } catch {
+        console.log(`ERROR IN isActive(): ${error}`);
     }
 }

@@ -20,22 +20,35 @@ import {
 	deleteCategory,
 } from "../logic/categories";
 import { getTransactionsByCategoryByMonth } from "../logic/transaction";
-import { totalSpentForCategoryForMonth } from "../logic/history";
+import {
+	monthYearToString,
+	totalSpentForCategoryForMonth,
+} from "../logic/history";
 import TransactionsView from "../components/TransactionsView";
 import TransactionContext from "../context/TransactionContext";
 
 const currentMonth = new Date().getMonth();
 const currentYear = new Date().getFullYear();
 
-const IncomeScreen = ({ navigation, route }) => {
+const HistoryCategoryScreen = ({
+	category,
+	month,
+	year,
+	navigation,
+	route,
+}) => {
+    ({ category, month, year } = route.params);
+
 	const [transactions, setTransactions] = React.useState([]);
 	const [total, setTotal] = React.useState(0);
 	const { allTransactions, setAllTransactions } =
 		useContext(TransactionContext);
 
+	const earnedOrSpent = category == "Income" ? "earned" : "spent";
+
 	useFocusEffect(
 		React.useCallback(() => {
-			totalSpentForCategoryForMonth("Income", currentMonth, currentYear)
+			totalSpentForCategoryForMonth(category, month, year)
 				.then((total) => {
 					setTotal(total);
 				})
@@ -43,11 +56,7 @@ const IncomeScreen = ({ navigation, route }) => {
 					console.log(error);
 				});
 
-			getTransactionsByCategoryByMonth(
-				"Income",
-				currentMonth,
-				currentYear
-			)
+			getTransactionsByCategoryByMonth(category, month, year)
 				.then((transactions) => {
 					setTransactions(transactions);
 				})
@@ -61,17 +70,16 @@ const IncomeScreen = ({ navigation, route }) => {
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 			<ScrollView>
 				<SafeAreaView style={styles.container}>
+					<Text style={styles.h1}>{category}</Text>
 					<View style={styles.header}>
-						<Text style={styles.h1}>Earned </Text>
-						<Text style={{ ...styles.h1, color: colors.blue }}>
-							${total}
+						<Text style={{ ...styles.h2 }}>
+							${total} {earnedOrSpent}
 						</Text>
-						<Text style={styles.h1}>this month</Text>
 					</View>
 					<TransactionsView
-						category={"Income"}
-						month={currentMonth}
-						year={currentYear}
+						category={category}
+						month={month}
+						year={year}
 						navigation={navigation}
 					/>
 				</SafeAreaView>
@@ -80,15 +88,15 @@ const IncomeScreen = ({ navigation, route }) => {
 	);
 };
 
-export default IncomeScreen;
+export default HistoryCategoryScreen;
 
 const styles = StyleSheet.create({
 	...baseStyles,
 	header: {
 		backgroundColor: colors.lightGreen,
-		borderRadius: 8,
+		borderRadius: 25,
 		padding: 10,
-        marginBottom: 10,
+		marginVertical: 10,
 		justifyContent: "center",
 		alignItems: "center",
 	},

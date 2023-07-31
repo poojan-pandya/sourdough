@@ -10,7 +10,7 @@ import {
 import RoundedButton from "../components/RoundedButton";
 import { baseStyles, colors } from "../styles/baseStyles";
 import React from "react";
-import { addNewCategory, isDuplicateCategory } from "../logic/categories";
+import { addNewCategory, getCategoryInfo, isDuplicateCategory, isActive } from "../logic/categories";
 import { chooseRandomEmoji } from "../logic/emojis";
 
 const NewCategoryScreen = ({ navigation, route }) => {
@@ -85,15 +85,15 @@ const NewCategoryScreen = ({ navigation, route }) => {
 					/>
 				</View>
 				<RoundedButton
-					enabled={category && emoji && budget}
+					enabled={category && category.trim().length > 0 && emoji && budget && parseFloat(budget) > 0}
 					title="Save"
 					backgroundColor={colors.blue}
 					style={styles.saveButton}
 					onPress={async () => {
-						if (await isDuplicateCategory(category, emoji)) {
-							alert("Category or emoji already used!");
+						if (await isActive(category)) {
+							alert("You already have an active category with that name!");
 						} else {
-							await addNewCategory(category, budget, emoji);
+							await addNewCategory(category.trim(), budget, emoji);
 							navigation.goBack();
 						}
 					}}

@@ -29,7 +29,7 @@ const currentYear = new Date().getFullYear();
 
 const CategoryScreen = ({ navigation, route }) => {
 	const { category } = route.params;
-	const [budget, setBudget] = React.useState(0);
+	const [budget, setBudget] = React.useState("");
 	const [emoji, setEmoji] = React.useState("🌮");
 	const [transactions, setTransactions] = React.useState([]);
 	const [total, setTotal] = React.useState(0);
@@ -78,6 +78,17 @@ const CategoryScreen = ({ navigation, route }) => {
 		}
 	};
 
+	const handleAmountChange = (text) => {
+		const filteredText = text.replace(/[^0-9.]/g, "");
+		const isValid =
+			(/^\d+(\.\d{0,2})?$/.test(filteredText) &&
+				parseFloat(filteredText) < 100000) ||
+			filteredText === "";
+		if (isValid) {
+			setBudget(filteredText);
+		}
+	};
+
 	return (
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 			<ScrollView>
@@ -92,7 +103,7 @@ const CategoryScreen = ({ navigation, route }) => {
 						<TextInput
 							style={{ ...baseStyles.h1, color: colors.blue }}
 							keyboardType="numeric"
-							onChangeText={handleInputChange}
+							onChangeText={handleAmountChange}
 							value={budget ? budget.toString() : ""}
 							placeholder="0.00"
 						/>
@@ -109,7 +120,7 @@ const CategoryScreen = ({ navigation, route }) => {
 						<Text style={{ ...baseStyles.h1 }}>{category}</Text>
 					</View>
 					<RoundedButton
-						enabled={true}
+						enabled={budget && parseFloat(budget) > 0}
 						title="Save"
 						backgroundColor={colors.blue}
 						style={{ marginBottom: 20 }}

@@ -107,7 +107,12 @@ const ThisMonthScreen = ({ navigation, route }) => {
 										  }
 										: () => {
 												navigation.navigate(
-													"Income Screen"
+													"Income Screen",
+													{
+														category: category,
+														month: currentMonth,
+														year: currentYear,
+													}
 												);
 										  }
 								}

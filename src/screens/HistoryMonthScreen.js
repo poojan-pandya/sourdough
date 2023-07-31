@@ -75,6 +75,13 @@ const HistoryMonthScreen = ({ navigation, route }) => {
 								emoji={categoryObj.emoji}
 								month={route.params.month}
 								year={route.params.year}
+								onPress={() => {
+									navigation.navigate("History Category Screen", {
+										month: route.params.month,
+										year: route.params.year,
+										category: category,
+									});
+								}}
 							/>
 						</View>
 					);

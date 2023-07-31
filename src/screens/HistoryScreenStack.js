@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HistoryScreen from "./HistoryScreen";
 import { colors } from "../styles/baseStyles";
 import HistoryMonthScreen from "./HistoryMonthScreen";
+import HistoryCategoryScreen from "./HistoryCategoryScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,7 +27,12 @@ const HistoryScreenStack = () => {
 			<Stack.Screen
 				name="History Month Screen"
 				component={HistoryMonthScreen}
-				options={{ title: "History Month", ...headerOptions }}
+				options={{ title: "", ...headerOptions }}
+			/>
+			<Stack.Screen
+				name="History Category Screen"
+				component={HistoryCategoryScreen}
+				options={{ title: "History Category", ...headerOptions }}
 			/>
 		</Stack.Navigator>
 	);
