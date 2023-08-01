@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View, } from "react-native";
 import React, { useContext, useState } from "react";
 import TransactionRow from "./TransactionRow";
 import { useFocusEffect } from "@react-navigation/native";
@@ -7,7 +7,7 @@ import {
 	getTransactionsByCategoryByMonth,
 	deleteTransaction,
 } from "../logic/transaction";
-import { baseStyles } from "../styles/baseStyles";
+import { baseStyles, colors } from "../styles/baseStyles";
 import { getAllCategories } from "../logic/categories";
 import TransactionContext from "../context/TransactionContext";
 import PlusButton from "./PlusButton";
@@ -62,6 +62,29 @@ const TransactionsView = ({ month, year, category, navigation }) => {
 		}, [allTransactions.length])
 	);
 
+	if (transactions.length === 0) {
+		return (
+			<View>
+				<View
+					style={{
+						flexDirection: "row",
+						alignItems: "center",
+						justifyContent: "space-between",
+						marginTop: 10,
+					}}
+				>
+					<Text style={{ ...styles.h1 }}>Transactions</Text>
+					<PlusButton
+						onPress={() => {
+							navigation.navigate("Add");
+						}}
+					/>
+				</View>
+				<Text style={{ ...styles.h2, color: colors.gray, marginTop: 10 }}>None right now!</Text>
+			</View>
+		);
+	}
+
 	return (
 		<View>
 			<View
@@ -73,9 +96,11 @@ const TransactionsView = ({ month, year, category, navigation }) => {
 				}}
 			>
 				<Text style={{ ...styles.h1 }}>Transactions</Text>
-				<PlusButton onPress={() => {
-					navigation.navigate("Add")
-				}} />
+				<PlusButton
+					onPress={() => {
+						navigation.navigate("Add");
+					}}
+				/>
 			</View>
 			{transactions.map((transaction) => {
 				return (

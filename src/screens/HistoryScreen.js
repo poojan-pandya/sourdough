@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
-import { baseStyles } from "../styles/baseStyles";
+import { baseStyles, colors } from "../styles/baseStyles";
 import React, { useState } from "react";
 import { getAllMonths, monthYearSplit } from "../logic/history";
 import HistoryRow from "../components/HistoryRow";
@@ -38,6 +38,19 @@ const HistoryScreen = ({ navigation }) => {
 				});
 		}, [])
 	);
+
+	if (allMonths.length === 0) {
+		return (
+			<SafeAreaView style={styles.container}>
+				<Text style={styles.h1}>History</Text>
+				<Text
+					style={{ ...styles.h2, color: colors.gray, marginTop: 10 }}
+				>
+					None right now!
+				</Text>
+			</SafeAreaView>
+		);
+	}
 
 	return (
 		<SafeAreaView style={styles.container}>
