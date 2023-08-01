@@ -4,10 +4,10 @@
     "slug": "Sourdough",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/sourdough-app-icon.png",
+    "icon": "./assets/dark-blue-sourdough.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/sourdough-splash.png",
+      "image": "./assets/sourdough-dark-blue-splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
