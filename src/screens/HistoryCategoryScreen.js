@@ -1,31 +1,19 @@
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useContext } from "react";
 import {
+	Keyboard,
+	SafeAreaView,
+	ScrollView,
 	StyleSheet,
 	Text,
-	SafeAreaView,
-	View,
-	TextInput,
 	TouchableWithoutFeedback,
-	Keyboard,
-	ScrollView,
-	Alert,
+	View,
 } from "react-native";
-import React, { useContext } from "react";
-import { baseStyles, colors } from "../styles/baseStyles";
-import ProgressBar from "../components/ProgressBar";
-import { useFocusEffect } from "@react-navigation/native";
-import RoundedButton from "../components/RoundedButton";
-import {
-	getCategoryInfo,
-	setCategoryLimit,
-	deleteCategory,
-} from "../logic/categories";
-import { getTransactionsByCategoryByMonth } from "../logic/transaction";
-import {
-	monthYearToString,
-	totalSpentForCategoryForMonth,
-} from "../logic/history";
 import TransactionsView from "../components/TransactionsView";
 import TransactionContext from "../context/TransactionContext";
+import { totalSpentForCategoryForMonth } from "../logic/history";
+import { getTransactionsByCategoryByMonth } from "../logic/transaction";
+import { baseStyles, colors } from "../styles/baseStyles";
 
 const currentMonth = new Date().getMonth();
 const currentYear = new Date().getFullYear();
@@ -37,7 +25,7 @@ const HistoryCategoryScreen = ({
 	navigation,
 	route,
 }) => {
-    ({ category, month, year } = route.params);
+	({ category, month, year } = route.params);
 
 	const [transactions, setTransactions] = React.useState([]);
 	const [total, setTotal] = React.useState(0);

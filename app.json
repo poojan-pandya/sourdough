@@ -4,7 +4,7 @@
     "slug": "Sourdough",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/dark-blue-sourdough.png",
+    "icon": "./assets/dark-blue-sourdough-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/sourdough-dark-blue-splash.png",
