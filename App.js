@@ -13,64 +13,64 @@ import { useState } from "react";
 const Tab = createBottomTabNavigator();
 
 function App() {
-	const [allTransactions, setAllTransactions] = useState([]);
+    const [allTransactions, setAllTransactions] = useState([]);
 
-	Text.defaultProps = Text.defaultProps || {};
-	Text.defaultProps.allowFontScaling = false;
-	TextInput.defaultProps = TextInput.defaultProps || {};
-	TextInput.defaultProps.allowFontScaling = false;
+    Text.defaultProps = Text.defaultProps || {};
+    Text.defaultProps.allowFontScaling = false;
+    TextInput.defaultProps = TextInput.defaultProps || {};
+    TextInput.defaultProps.allowFontScaling = false;
 
-	return (
-		<TransactionContext.Provider
-			value={{ allTransactions, setAllTransactions }}
-		>
-			<NavigationContainer>
-				<Tab.Navigator
-					screenOptions={({ route }) => ({
-						tabBarIcon: ({ focused, color, size }) => {
-							let iconName;
+    return (
+        <TransactionContext.Provider
+            value={{ allTransactions, setAllTransactions }}
+        >
+            <NavigationContainer>
+                <Tab.Navigator
+                    screenOptions={({ route }) => ({
+                        tabBarIcon: ({ focused, color, size }) => {
+                            let iconName;
 
-							if (route.name === "This Month") {
-								iconName = focused
-									? "calendar"
-									: "calendar-outline";
-							} else if (route.name === "Add") {
-								iconName = focused
-									? "add-circle"
-									: "add-circle-outline";
-							} else if (route.name === "History") {
-								iconName = focused
-									? "ios-list"
-									: "ios-list-outline";
-							}
+                            if (route.name === "This Month") {
+                                iconName = focused
+                                    ? "calendar"
+                                    : "calendar-outline";
+                            } else if (route.name === "Add") {
+                                iconName = focused
+                                    ? "add-circle"
+                                    : "add-circle-outline";
+                            } else if (route.name === "History") {
+                                iconName = focused
+                                    ? "ios-list"
+                                    : "ios-list-outline";
+                            }
 
-							return (
-								<Ionicons
-									name={iconName}
-									size={size}
-									color={color}
-								/>
-							);
-						},
-						tabBarActiveTintColor: colors.blue,
-						tabBarInactiveTintColor: colors.gray,
-						headerShown: false,
-						tabBarStyle: {
-							backgroundColor: "#f2f2f2",
-							borderTopWidth: 0,
-						},
-					})}
-				>
-					<Tab.Screen
-						name="This Month"
-						component={ThisMonthScreenStack}
-					/>
-					<Tab.Screen name="Add" component={AddScreenStack} />
-					<Tab.Screen name="History" component={HistoryScreenStack} />
-				</Tab.Navigator>
-			</NavigationContainer>
-		</TransactionContext.Provider>
-	);
+                            return (
+                                <Ionicons
+                                    name={iconName}
+                                    size={size}
+                                    color={color}
+                                />
+                            );
+                        },
+                        tabBarActiveTintColor: colors.blue,
+                        tabBarInactiveTintColor: colors.gray,
+                        headerShown: false,
+                        tabBarStyle: {
+                            backgroundColor: "#f2f2f2",
+                            borderTopWidth: 0,
+                        },
+                    })}
+                >
+                    <Tab.Screen
+                        name="This Month"
+                        component={ThisMonthScreenStack}
+                    />
+                    <Tab.Screen name="Add" component={AddScreenStack} />
+                    <Tab.Screen name="History" component={HistoryScreenStack} />
+                </Tab.Navigator>
+            </NavigationContainer>
+        </TransactionContext.Provider>
+    );
 }
 
 export default App;
