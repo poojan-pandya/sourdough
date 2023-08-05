@@ -16,7 +16,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.poojanpandya.Sourdough"
+      "bundleIdentifier": "com.poojanpandya.Sourdough",
+      "appName": "Sourdough - Budget & Expense Tracker"
     },
     "android": {
       "adaptiveIcon": {
