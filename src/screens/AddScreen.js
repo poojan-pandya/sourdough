@@ -25,7 +25,6 @@ const AddScreen = () => {
 	const [pickerExpanded, setPickerExpanded] = React.useState(false);
 	const [date, setDate] = React.useState(new Date());
 	const amountRef = React.useRef(null);
-	const amountFocused = useIsFocused();
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -64,6 +63,7 @@ const AddScreen = () => {
 	const cleanup = () => {
 		setAmount("");
 		setLabel("");
+		console.log(label);
 		setSelectedCategory("Income");
 		setDate(new Date());
 		amountRef.current.focus();
